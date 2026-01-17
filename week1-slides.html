@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 1: Landing in Japan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #1a1a1a;
+            overflow: hidden;
+        }
+
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+            text-align: center;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+
+        .slide-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Title Slide */
+        .title-slide {
+            background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+        }
+
+        .title-slide h1 {
+            font-size: 80px;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        }
+
+        .title-slide .emoji {
+            font-size: 120px;
+            margin-bottom: 30px;
+            animation: bounce 2s infinite;
+        }
+
+        .title-slide .subtitle {
+            font-size: 40px;
+            color: #fff9e6;
+            margin-bottom: 40px;
+        }
+
+        .countdown-box {
+            background: rgba(255,255,255,0.2);
+            padding: 20px 40px;
+            border-radius: 15px;
+            font-size: 28px;
+            color: white;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        /* Phrase Slides */
+        .phrase-slide {
+            background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%);
+        }
+
+        .phrase-box {
+            background: white;
+            padding: 60px;
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            margin: 20px 0;
+        }
+
+        .phrase-romaji {
+            font-size: 70px;
+            color: #d32f2f;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .phrase-pronunciation {
+            font-size: 35px;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+
+        .phrase-meaning {
+            font-size: 45px;
+            color: #333;
+            background: #fff9e6;
+            padding: 20px;
+            border-radius: 15px;
+            border: 3px solid #ffd700;
+        }
+
+        /* Airport Slide */
+        .airport-slide {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23e3f2fd" width="1200" height="800"/><text x="600" y="300" font-size="100" text-anchor="middle" fill="%231976d2">✈️</text><text x="600" y="450" font-size="60" text-anchor="middle" fill="%23424242">Narita Airport</text><text x="600" y="550" font-size="40" text-anchor="middle" fill="%23666">Welcome to Japan!</text></svg>');
+        }
+
+        .airport-slide h2 {
+            font-size: 60px;
+            color: white;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Bowing Slide */
+        .bow-slide {
+            background: linear-gradient(135deg, #f57c00 0%, #e65100 100%);
+        }
+
+        .bow-container {
+            display: flex;
+            justify-content: space-around;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .bow-type {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            flex: 1;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+
+        .bow-emoji {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .bow-title {
+            font-size: 32px;
+            color: #d32f2f;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .bow-description {
+            font-size: 22px;
+            color: #555;
+            line-height: 1.4;
+        }
+
+        /* Role Play Slide */
+        .roleplay-slide {
+            background: linear-gradient(135deg, #7b1fa2 0%, #4a148c 100%);
+        }
+
+        .scenario-box {
+            background: white;
+            padding: 50px;
+            border-radius: 25px;
+            margin: 30px 0;
+            max-width: 900px;
+        }
+
+        .scenario-title {
+            font-size: 50px;
+            color: #7b1fa2;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .dialogue {
+            text-align: left;
+            font-size: 32px;
+            line-height: 2;
+            color: #333;
+        }
+
+        .dialogue-line {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+
+        .speaker {
+            font-weight: bold;
+            color: #d32f2f;
+        }
+
+        /* Mission Slide */
+        .mission-slide {
+            background: linear-gradient(135deg, #388e3c 0%, #1b5e20 100%);
+        }
+
+        .mission-box {
+            background: white;
+            padding: 50px;
+            border-radius: 25px;
+            border: 5px solid #ffd700;
+        }
+
+        .mission-title {
+            font-size: 55px;
+            color: #388e3c;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .mission-item {
+            font-size: 30px;
+            color: #333;
+            margin: 25px 0;
+            text-align: left;
+            padding-left: 50px;
+        }
+
+        .mission-item::before {
+            content: "✓ ";
+            color: #388e3c;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .bonus {
+            background: #fff9e6;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border: 3px solid #ffa726;
+        }
+
+        /* Navigation */
+        .nav-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            padding: 15px 30px;
+            font-size: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* Slide Counter */
+        .slide-counter {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 100;
+            background: rgba(255,255,255,0.9);
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Animations */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide.active .slide-content {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Header Style */
+        .slide h2 {
+            font-size: 60px;
+            color: white;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Print Styles */
+        @media print {
+            .nav-buttons, .slide-counter { display: none; }
+            .slide { page-break-after: always; display: flex !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active title-slide">
+            <div class="slide-content">
+                <div class="emoji">✈️</div>
+                <h1>Week 1</h1>
+                <div class="subtitle">Landing in Japan!</div>
+                <div class="countdown-box">⏰ 20 weeks until trip!</div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Learning Goal -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <h2>Today's Goal</h2>
+                <div class="phrase-box">
+                    <div class="phrase-meaning" style="font-size: 40px; line-height: 1.6;">
+                        Feel comfortable hearing and speaking<br>
+                        <strong style="color: #d32f2f;">basic Japanese greetings!</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Phrase 1 - Konnichiwa -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <div class="phrase-box">
+                    <div class="phrase-romaji">Konnichiwa</div>
+                    <div class="phrase-pronunciation">(kon-nee-chee-wah)</div>
+                    <div class="phrase-meaning">Hello</div>
+                </div>
+                <div style="font-size: 80px; margin-top: 40px; color: white;">👋</div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Phrase 2 - Hajimemashite -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <div class="phrase-box">
+                    <div class="phrase-romaji">Hajimemashite</div>
+                    <div class="phrase-pronunciation">(ha-jee-meh-mash-teh)</div>
+                    <div class="phrase-meaning">Nice to meet you</div>
+                </div>
+                <div style="font-size: 80px; margin-top: 40px; color: white;">🤝</div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Phrase 3 - Arigatou -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <div class="phrase-box">
+                    <div class="phrase-romaji">Arigatou</div>
+                    <div class="phrase-pronunciation">(ah-ree-gah-toh)</div>
+                    <div class="phrase-meaning">Thank you</div>
+                </div>
+                <div style="font-size: 80px; margin-top: 40px; color: white;">🙏</div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Phrase 4 - Sayounara -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <div class="phrase-box">
+                    <div class="phrase-romaji">Sayounara</div>
+                    <div class="phrase-pronunciation">(sah-yoh-nah-rah)</div>
+                    <div class="phrase-meaning">Goodbye</div>
+                </div>
+                <div style="font-size: 80px; margin-top: 40px; color: white;">👋</div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Airport Scene -->
+        <div class="slide airport-slide">
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+                <h2>🛬 Narita Airport - June 2026</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 35px; color: #333; line-height: 1.8;">
+                        <strong style="color: #d32f2f;">When you land at Narita,</strong><br>
+                        THIS is what you'll hear first!<br><br>
+                        <span style="font-size: 50px;">「こんにちは！」</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Bowing Culture -->
+        <div class="slide bow-slide">
+            <div class="slide-content">
+                <h2>🙇 Bowing Basics</h2>
+                <div class="bow-container">
+                    <div class="bow-type">
+                        <div class="bow-emoji">🙇</div>
+                        <div class="bow-title">Small Bow</div>
+                        <div class="bow-description">15° angle<br>Casual hello</div>
+                    </div>
+                    <div class="bow-type">
+                        <div class="bow-emoji">🙇‍♂️</div>
+                        <div class="bow-title">Medium Bow</div>
+                        <div class="bow-description">30° angle<br>Thank you</div>
+                    </div>
+                    <div class="bow-type">
+                        <div class="bow-emoji">🙇‍♀️</div>
+                        <div class="bow-title">Deep Bow</div>
+                        <div class="bow-description">45° angle<br>Very formal</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Practice Time -->
+        <div class="slide bow-slide">
+            <div class="slide-content">
+                <h2>Let's Practice! 🎯</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 40px; color: #333; line-height: 2;">
+                        <strong style="color: #d32f2f;">Everyone:</strong><br>
+                        Turn on your camera!<br><br>
+                        <strong style="color: #f57c00;">Let's bow together!</strong><br><br>
+                        <div style="font-size: 30px; color: #666;">
+                        Small bow... Medium bow... Deep bow!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Role Play Setup -->
+        <div class="slide roleplay-slide">
+            <div class="slide-content">
+                <h2>🎭 Role Play Time!</h2>
+                <div class="scenario-box">
+                    <div class="scenario-title">Scene: Airport Arrival</div>
+                    <div style="font-size: 28px; color: #666; margin-bottom: 30px;">
+                        You just arrived at Narita Airport!<br>
+                        Sensei is the Japanese airport helper.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Role Play Script -->
+        <div class="slide roleplay-slide">
+            <div class="slide-content">
+                <div class="scenario-box">
+                    <div class="dialogue">
+                        <div class="dialogue-line">
+                            <span class="speaker">Airport Helper:</span> "Konnichiwa!"
+                        </div>
+                        <div class="dialogue-line">
+                            <span class="speaker">You:</span> <em>[respond!]</em>
+                        </div>
+                        <div class="dialogue-line">
+                            <span class="speaker">Airport Helper:</span> "Hajimemashite!"
+                        </div>
+                        <div class="dialogue-line">
+                            <span class="speaker">You:</span> <em>[respond!]</em>
+                        </div>
+                        <div class="dialogue-line">
+                            <span class="speaker">Airport Helper:</span> *hands you a map*
+                        </div>
+                        <div class="dialogue-line">
+                            <span class="speaker">You:</span> <em>[what do you say?]</em>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Culture Fact -->
+        <div class="slide bow-slide">
+            <div class="slide-content">
+                <h2>🇯🇵 Fun Fact!</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 45px; color: #333; line-height: 1.8;">
+                        Even <strong style="color: #d32f2f;">immigration officers</strong><br>
+                        will bow to you at the airport!<br><br>
+                        <div style="font-size: 80px;">🙇‍♂️✈️🙇‍♀️</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Mission of the Week -->
+        <div class="slide mission-slide">
+            <div class="slide-content">
+                <div class="mission-box">
+                    <div class="mission-title">🎯 Mission of the Week</div>
+                    <div class="mission-item">Say "Konnichiwa" to 5 different people</div>
+                    <div class="mission-item">Practice bowing (small, medium, deep)</div>
+                    <div class="mission-item">Teach someone "Arigatou"</div>
+                    
+                    <div class="bonus">
+                        <div style="font-size: 35px; color: #f57c00; font-weight: bold; margin-bottom: 15px;">
+                            ⭐ BONUS Mission
+                        </div>
+                        <div style="font-size: 28px; color: #333;">
+                            Record yourself bowing + saying "Hajimemashite"<br>
+                            Post to WhatsApp by Friday!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Passport Stamp -->
+        <div class="slide title-slide">
+            <div class="slide-content">
+                <div style="font-size: 100px; margin-bottom: 30px;">🎫</div>
+                <h1 style="font-size: 60px;">Earn Your First Stamp!</h1>
+                <div class="phrase-box" style="background: white; margin-top: 40px;">
+                    <div style="font-size: 50px; color: #d32f2f; font-weight: bold;">
+                        ✈️ NARITA AIRPORT ARRIVAL
+                    </div>
+                    <div style="font-size: 30px; color: #666; margin-top: 20px;">
+                        Complete this week's mission to earn it!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Closing -->
+        <div class="slide title-slide">
+            <div class="slide-content">
+                <div style="font-size: 100px; margin-bottom: 30px;">🌸</div>
+                <h1>Otsukaresama!</h1>
+                <div class="subtitle" style="font-size: 35px;">
+                    (Good job! You worked hard!)
+                </div>
+                <div class="phrase-box" style="margin-top: 50px;">
+                    <div style="font-size: 40px; color: #333;">
+                        See you next week!<br>
+                        <strong style="color: #d32f2f;">Mata ne! 👋</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="slide-counter">
+        <span id="currentSlide">1</span> / <span id="totalSlides">15</span>
+    </div>
+    
+    <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+            
+            // Update button states
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
