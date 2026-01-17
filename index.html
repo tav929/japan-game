@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japan Trip Master Practice Game</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .game-container {
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { font-size: 42px; color: #667eea; margin-bottom: 10px; }
+        .header p { font-size: 18px; color: #666; }
+        
+        .progress-tracker {
+            background: linear-gradient(135deg, #fff9e6 0%, #fff 100%);
+            border: 3px solid #ffd700;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .progress-title { font-size: 24px; font-weight: bold; color: #f57c00; }
+        .total-mastery { font-size: 32px; font-weight: bold; color: #667eea; }
+        .week-progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
+        .week-badge {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+        }
+        .week-badge.mastered { border-color: #4caf50; background: #e8f5e9; }
+        .week-badge.in-progress { border-color: #ffa726; background: #fff3e0; }
+        .week-number { font-size: 14px; color: #666; margin-bottom: 5px; }
+        .week-accuracy { font-size: 20px; font-weight: bold; color: #667eea; }
+        
+        .week-selector {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        .week-selector h3 { color: #667eea; margin-bottom: 15px; font-size: 22px; }
+        .week-options { display: flex; gap: 15px; flex-wrap: wrap; }
+        .week-option {
+            padding: 15px 25px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .week-option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+            transform: translateY(-2px);
+        }
+        .week-option.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+        
+        .mode-select { display: flex; gap: 20px; margin-bottom: 30px; }
+        .mode-btn {
+            flex: 1;
+            padding: 30px;
+            border: 3px solid #e0e0e0;
+            border-radius: 20px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .mode-btn:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        .mode-emoji { font-size: 60px; margin-bottom: 15px; }
+        .mode-title { font-size: 24px; font-weight: bold; color: #333; margin-bottom: 10px; }
+        .mode-desc { font-size: 16px; color: #666; }
+        
+        .game-area {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            min-height: 400px;
+        }
+        .score-board {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            background: #fff9e6;
+            padding: 20px;
+            border-radius: 15px;
+            border: 3px solid #ffd700;
+        }
+        .score-item { text-align: center; }
+        .score-label { font-size: 14px; color: #666; margin-bottom: 5px; }
+        .score-value { font-size: 32px; font-weight: bold; color: #667eea; }
+        
+        .phrase-display { text-align: center; margin: 30px 0; }
+        .hiragana { font-size: 56px; color: #333; margin-bottom: 10px; }
+        .romaji { font-size: 48px; color: #667eea; font-weight: bold; margin-bottom: 15px; }
+        .pronunciation { font-size: 20px; color: #999; font-style: italic; }
+        
+        .sound-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 25px 50px;
+            border-radius: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            margin: 20px 0;
+        }
+        .sound-btn:hover { background: #5568d3; transform: scale(1.05); }
+        
+        .choices {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .choice-btn {
+            padding: 30px;
+            border: 3px solid #e0e0e0;
+            border-radius: 15px;
+            background: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            color: #333;
+        }
+        .choice-btn:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+            transform: translateY(-3px);
+        }
+        .choice-btn:disabled { cursor: not-allowed; }
+        .choice-btn.correct { border-color: #4caf50; background: #e8f5e9; }
+        .choice-btn.wrong { border-color: #f44336; background: #ffebee; }
+        
+        .next-btn {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 15px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        .next-btn:hover { background: #45a049; transform: scale(1.05); }
+        
+        .feedback {
+            font-size: 28px;
+            margin-top: 30px;
+            font-weight: bold;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        .feedback.success { background: #e8f5e9; color: #2e7d32; border: 3px solid #4caf50; }
+        .feedback.error { background: #ffebee; color: #c62828; border: 3px solid #f44336; }
+        
+        .completion-screen { text-align: center; }
+        .completion-emoji { font-size: 120px; margin-bottom: 30px; }
+        .completion-title { font-size: 48px; color: #667eea; margin-bottom: 20px; font-weight: bold; }
+        .stats {
+            background: #f0f4ff;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+        }
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            font-size: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        .stat-row:last-child { border-bottom: none; }
+        
+        .restart-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 20px 60px;
+            border-radius: 15px;
+            font-size: 22px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        .restart-btn:hover { background: #5568d3; transform: scale(1.05); }
+        
+        .instructions {
+            background: #fff9e6;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 3px solid #ffd700;
+        }
+        .instructions h3 { color: #f57c00; margin-bottom: 10px; font-size: 22px; }
+        .instructions p { color: #666; font-size: 16px; line-height: 1.6; }
+        
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1>🇯🇵 Japan Trip Master Game</h1>
+            <p>Practice all your phrases - Track your progress!</p>
+        </div>
+
+        <div class="progress-tracker">
+            <div class="progress-header">
+                <div class="progress-title">📊 Your Learning Progress</div>
+                <div class="total-mastery" id="totalMastery">0%</div>
+            </div>
+            <div class="week-progress-grid" id="weekProgressGrid"></div>
+        </div>
+
+        <div id="startScreen">
+            <div class="week-selector">
+                <h3>Choose What to Practice:</h3>
+                <div class="week-options" id="weekOptions"></div>
+            </div>
+
+            <div class="instructions">
+                <h3>Choose Your Practice Mode:</h3>
+                <p>Select which weeks you want to practice, then pick a game mode!</p>
+            </div>
+            
+            <div class="mode-select">
+                <div class="mode-btn" onclick="startGame('listen')">
+                    <div class="mode-emoji">👂</div>
+                    <div class="mode-title">Listen & Match</div>
+                    <div class="mode-desc">Hear Japanese, pick the English meaning</div>
+                </div>
+                <div class="mode-btn" onclick="startGame('speak')">
+                    <div class="mode-emoji">🎤</div>
+                    <div class="mode-title">Speak & Practice</div>
+                    <div class="mode-desc">Repeat the Japanese phrases</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="gameArea" class="hidden">
+            <div class="score-board">
+                <div class="score-item">
+                    <div class="score-label">Round</div>
+                    <div class="score-value" id="currentRound">1</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-label">Score</div>
+                    <div class="score-value" id="score">0</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-label">Streak</div>
+                    <div class="score-value" id="streak">0</div>
+                </div>
+            </div>
+            <div class="game-area" id="questionArea"></div>
+        </div>
+
+        <div id="completionScreen" class="hidden"></div>
+    </div>
+
+    <script>
+        // PHRASE DATABASE - ADD NEW WEEKS HERE
+        const phraseDatabase = {
+            week1: [
+                { hiragana: 'こんにちは', romaji: 'Konnichiwa', english: 'Hello', pronunciation: 'kon-nee-chee-wah', audioFile: 'konnichiwa.mp3' },
+                { hiragana: 'はじめまして', romaji: 'Hajimemashite', english: 'Nice to meet you', pronunciation: 'ha-jee-meh-mash-teh', audioFile: 'hajimemashite.mp3' },
+                { hiragana: 'ありがとう', romaji: 'Arigatou', english: 'Thank you', pronunciation: 'ah-ree-gah-toh', audioFile: 'arigatou.mp3' },
+                { hiragana: 'さようなら', romaji: 'Sayounara', english: 'Goodbye', pronunciation: 'sah-yoh-nah-rah', audioFile: 'sayounara.mp3' }
+            ],
+            week2: [
+                { hiragana: 'げんき？', romaji: 'Genki?', english: 'How are you?', pronunciation: 'gen-kee', audioFile: 'genki.mp3' },
+                { hiragana: 'げんきです！', romaji: 'Genki desu!', english: "I'm good!", pronunciation: 'gen-kee des', audioFile: 'genki-desu.mp3' },
+                { hiragana: 'まあまあ', romaji: 'Maa maa', english: 'So-so', pronunciation: 'mah mah', audioFile: 'maa-maa.mp3' },
+                { hiragana: 'すみません', romaji: 'Sumimasen', english: 'Excuse me', pronunciation: 'soo-mee-mah-sen', audioFile: 'sumimasen.mp3' }
+            ],
+            week3: [
+                { hiragana: 'わたしは___です', romaji: 'Watashi wa ___ desu', english: 'I am ___', pronunciation: 'wah-tah-shee wah ___ des', audioFile: 'watashi-wa-desu.mp3' },
+                { hiragana: 'おなまえは？', romaji: 'Onamae wa?', english: "What's your name?", pronunciation: 'oh-nah-mah-eh wah', audioFile: 'onamae-wa.mp3' },
+                { hiragana: '___さいです', romaji: '___ sai desu', english: 'I am ___ years old', pronunciation: '___ sigh des', audioFile: 'sai-desu.mp3' },
+                { hiragana: 'いっしょにあそぼう', romaji: 'Issho ni asobou', english: "Let's play together", pronunciation: 'ee-show nee ah-soh-boh', audioFile: 'issho-ni-asobou.mp3' }
+            ]
+        };
+
+        const AUDIO_BASE_URL = 'https://raw.githubusercontent.com/tav929/japan-game/main/audio/';
+
+        let selectedWeeks = ['week1'];
+        let gameMode = '', currentRound = 0, score = 0, streak = 0;
+        let currentPhrase = null, activePhrases = [], totalRounds = 0, correctAnswers = 0;
+        let weekStats = {};
+
+        function loadProgress() {
+            const saved = localStorage.getItem('japanGameProgress');
+            weekStats = saved ? JSON.parse(saved) : {};
+            Object.keys(phraseDatabase).forEach(week => {
+                if (!weekStats[week]) weekStats[week] = { correct: 0, total: 0, accuracy: 0 };
+            });
+        }
+
+        function saveProgress() {
+            localStorage.setItem('japanGameProgress', JSON.stringify(weekStats));
+        }
+
+        function renderWeekOptions() {
+            const weeks = Object.keys(phraseDatabase);
+            document.getElementById('weekOptions').innerHTML = weeks.map((week, i) => 
+                `<div class="week-option ${selectedWeeks.includes(week) ? 'selected' : ''}" onclick="toggleWeek('${week}')">Week ${i+1}</div>`
+            ).join('') + `<div class="week-option ${selectedWeeks.length === weeks.length ? 'selected' : ''}" onclick="selectAllWeeks()">All Weeks</div>`;
+        }
+
+        function renderProgressTracker() {
+            const weeks = Object.keys(phraseDatabase);
+            let totalCorrect = 0, totalAttempts = 0;
+            
+            document.getElementById('weekProgressGrid').innerHTML = weeks.map((week, i) => {
+                const stats = weekStats[week];
+                const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+                totalCorrect += stats.correct;
+                totalAttempts += stats.total;
+                const badge = accuracy >= 80 ? 'mastered' : accuracy > 0 ? 'in-progress' : '';
+                return `<div class="week-badge ${badge}"><div class="week-number">Week ${i+1}</div><div class="week-accuracy">${accuracy}%</div></div>`;
+            }).join('');
+            
+            const totalMastery = totalAttempts > 0 ? Math.round((totalCorrect / totalAttempts) * 100) : 0;
+            document.getElementById('totalMastery').textContent = totalMastery + '%';
+        }
+
+        function toggleWeek(week) {
+            const index = selectedWeeks.indexOf(week);
+            if (index > -1) selectedWeeks.splice(index, 1);
+            else selectedWeeks.push(week);
+            if (selectedWeeks.length === 0) selectedWeeks = ['week1'];
+            renderWeekOptions();
+        }
+
+        function selectAllWeeks() {
+            selectedWeeks = Object.keys(phraseDatabase);
+            renderWeekOptions();
+        }
+
+        function startGame(mode) {
+            gameMode = mode;
+            currentRound = 0;
+            score = 0;
+            streak = 0;
+            correctAnswers = 0;
+            activePhrases = [];
+            selectedWeeks.forEach(week => activePhrases = activePhrases.concat(phraseDatabase[week]));
+            totalRounds = activePhrases.length * 2;
+            
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('gameArea').classList.remove('hidden');
+            nextRound();
+        }
+
+        function nextRound() {
+            currentRound++;
+            if (currentRound > totalRounds) {
+                showCompletion();
+                return;
+            }
+            updateScoreBoard();
+            currentPhrase = activePhrases[Math.floor(Math.random() * activePhrases.length)];
+            gameMode === 'listen' ? showListenQuestion() : showSpeakQuestion();
+        }
+
+        function updateScoreBoard() {
+            document.getElementById('currentRound').textContent = currentRound;
+            document.getElementById('score').textContent = score;
+            document.getElementById('streak').textContent = streak;
+        }
+
+        function playSound() {
+            const audio = new Audio(AUDIO_BASE_URL + currentPhrase.audioFile);
+            audio.onerror = () => {
+                const utterance = new SpeechSynthesisUtterance(currentPhrase.romaji);
+                utterance.lang = 'ja-JP';
+                utterance.rate = 0.8;
+                speechSynthesis.speak(utterance);
+            };
+            audio.play();
+        }
+
+        function showListenQuestion() {
+            const wrongAnswers = activePhrases.filter(p => p.english !== currentPhrase.english)
+                .map(p => p.english).sort(() => Math.random() - 0.5).slice(0, 3);
+            const allAnswers = [currentPhrase.english, ...wrongAnswers].sort(() => Math.random() - 0.5);
+            
+            document.getElementById('questionArea').innerHTML = `
+                <div style="text-align: center;">
+                    <h2 style="color: #667eea; margin-bottom: 20px;">Listen and choose the correct meaning:</h2>
+                    <div class="phrase-display"><div class="hiragana">${currentPhrase.hiragana}</div></div>
+                    <button class="sound-btn" onclick="playSound()">🔊 Play Sound</button>
+                    <div class="choices">
+                        ${allAnswers.map(a => `<button class="choice-btn" onclick="checkAnswer('${a.replace(/'/g, "\\'")}')">${a}</button>`).join('')}
+                    </div>
+                </div>
+            `;
+            setTimeout(() => playSound(), 500);
+        }
+
+        function checkAnswer(answer) {
+            const buttons = document.querySelectorAll('.choice-btn');
+            const isCorrect = answer === currentPhrase.english;
+            
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent === currentPhrase.english) btn.classList.add('correct');
+                else if (btn.textContent === answer && !isCorrect) btn.classList.add('wrong');
+            });
+            
+            selectedWeeks.forEach(week => {
+                if (phraseDatabase[week].some(p => p.romaji === currentPhrase.romaji)) {
+                    weekStats[week].total++;
+                    if (isCorrect) weekStats[week].correct++;
+                    weekStats[week].accuracy = Math.round((weekStats[week].correct / weekStats[week].total) * 100);
+                }
+            });
+            saveProgress();
+            
+            if (isCorrect) {
+                score += 10 + (streak * 5);
+                streak++;
+                correctAnswers++;
+                showFeedback(true);
+            } else {
+                streak = 0;
+                showFeedback(false);
+            }
+            setTimeout(() => nextRound(), 2000);
+        }
+
+        function showSpeakQuestion() {
+            document.getElementById('questionArea').innerHTML = `
+                <div style="text-align: center;">
+                    <h2 style="color: #667eea; margin-bottom: 20px;">Listen and repeat:</h2>
+                    <div class="phrase-display">
+                        <div class="hiragana">${currentPhrase.hiragana}</div>
+                        <div class="romaji">${currentPhrase.romaji}</div>
+                        <div class="pronunciation">${currentPhrase.pronunciation}</div>
+                    </div>
+                    <div style="font-size: 24px; color: #666; margin: 20px 0;">${currentPhrase.english}</div>
+                    <button class="sound-btn" onclick="playSound()">🔊 Listen</button>
+                    <br>
+                    <button class="next-btn" onclick="handleSpeakComplete()">I Said It! ✓</button>
+                </div>
+            `;
+            setTimeout(() => playSound(), 500);
+        }
+
+        function handleSpeakComplete() {
+            selectedWeeks.forEach(week => {
+                if (phraseDatabase[week].some(p => p.romaji === currentPhrase.romaji)) {
+                    weekStats[week].total++;
+                    weekStats[week].correct++;
+                    weekStats[week].accuracy = Math.round((weekStats[week].correct / weekStats[week].total) * 100);
+                }
+            });
+            saveProgress();
+            score += 10;
+            streak++;
+            correctAnswers++;
+            showFeedback(true, "Great job! 素晴らしい!");
+            setTimeout(() => nextRound(), 1500);
+        }
+
+        function showFeedback(success, custom = '') {
+            const div = document.createElement('div');
+            div.className = `feedback ${success ? 'success' : 'error'}`;
+            if (custom) div.textContent = custom;
+            else if (success) div.textContent = ['Perfect! 完璧!', 'Excellent! すごい!', 'Great! いいね!'][Math.floor(Math.random() * 3)];
+            else div.innerHTML = `Oops! Answer: <strong>${currentPhrase.english}</strong><br>${currentPhrase.hiragana} (${currentPhrase.romaji})`;
+            document.getElementById('questionArea').appendChild(div);
+        }
+
+        function showCompletion() {
+            document.getElementById('gameArea').classList.add('hidden');
+            document.getElementById('completionScreen').classList.remove('hidden');
+            renderProgressTracker();
+            
+            const pct = Math.round((correctAnswers / totalRounds) * 100);
+            const emoji = pct === 100 ? '🏆' : pct >= 75 ? '⭐' : '👍';
+            const msg = pct === 100 ? 'Perfect!' : pct >= 75 ? 'Excellent!' : 'Good job!';
+            
+            document.getElementById('completionScreen').innerHTML = `
+                <div class="completion-screen">
+                    <div class="completion-emoji">${emoji}</div>
+                    <div class="completion-title">${msg}</div>
+                    <div class="stats">
+                        <div class="stat-row"><span><strong>Score:</strong></span><span style="color:#667eea;font-weight:bold">${score}</span></div>
+                        <div class="stat-row"><span><strong>Correct:</strong></span><span style="color:#4caf50;font-weight:bold">${correctAnswers}/${totalRounds}</span></div>
+                        <div class="stat-row"><span><strong>Accuracy:</strong></span><span style="color:#f57c00;font-weight:bold">${pct}%</span></div>
+                    </div>
+                    <button class="restart-btn" onclick="location.reload()">Practice Again 🔄</button>
+                    <div style="margin-top:30px;padding:20px;background:#e8f5e9;border-radius:15px;border:3px solid #4caf50">
+                        <div style="font-size:24px;color:#2e7d32;font-weight:bold;margin-bottom:10px">📊 Progress Saved!</div>
+                        <div style="font-size:18px;color:#555">Check the tracker to see your mastery!</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        loadProgress();
+        renderWeekOptions();
+        renderProgressTracker();
+    </script>
+</body>
+</html>
