@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japan Trip 2026 - Class Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 56px;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
+            font-size: 24px;
+            opacity: 0.95;
+        }
+
+        .header .emoji {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .countdown {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 15px;
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 22px;
+        }
+
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .section h2 {
+            font-size: 36px;
+            color: #667eea;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-icon {
+            font-size: 48px;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .link-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border: 3px solid #667eea;
+            border-radius: 15px;
+            padding: 25px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s;
+            display: block;
+            position: relative;
+        }
+
+        .link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+            border-color: #764ba2;
+        }
+
+        .link-card.locked {
+            background: linear-gradient(135deg, #f0f0f0 0%, #d0d0d0 100%);
+            border-color: #999;
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .link-card.locked:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .link-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .link-card.locked .link-title {
+            color: #999;
+        }
+
+        .link-desc {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .link-emoji {
+            font-size: 40px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .lock-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #999;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .week-label {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .external-link {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            border-color: #f39c12;
+        }
+
+        .external-link:hover {
+            border-color: #e67e22;
+        }
+
+        .external-link .link-title {
+            color: #e67e22;
+        }
+
+        .instructions {
+            background: #fff9e6;
+            border: 3px solid #ffd700;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 40px;
+        }
+
+        .instructions h3 {
+            color: #f57c00;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .instructions p {
+            color: #666;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 40px;
+            }
+            
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="emoji">🇯🇵✈️🗾</div>
+            <h1>Japan Trip 2026</h1>
+            <div class="subtitle">18-Week Japanese Class Hub</div>
+            <div class="countdown">⏰ Trip: June 22, 2026</div>
+        </div>
+
+        <div class="instructions">
+            <h3>📚 Welcome to Our Class Hub!</h3>
+            <p>
+                Everything you need for our Japan trip prep is right here. Kids can practice with the game, 
+                watch YouTube videos, and track their progress with the digital passport. 
+                Parents can access lesson slides for each week. <strong>Bookmark this page</strong> for easy access!
+            </p>
+        </div>
+
+        <!-- Interactive Tools Section -->
+        <div class="section">
+            <h2><span class="section-icon">🎮</span> Practice & Learning Tools</h2>
+            <div class="links-grid">
+                <a href="game.html" class="link-card">
+                    <span class="link-emoji">🎮</span>
+                    <div class="link-title">Practice Game</div>
+                    <div class="link-desc">Interactive game with Listen & Match and Speak & Practice modes. Weeks 1-3 available now!</div>
+                </a>
+
+                <a href="https://japanpassport.netlify.app/" class="link-card" target="_blank">
+                    <span class="link-emoji">🎫</span>
+                    <div class="link-title">Digital Passport</div>
+                    <div class="link-desc">Track your progress and collect stamps for each week completed. Goal: 18 stamps!</div>
+                </a>
+
+                <a href="https://youtube.com/@SakuraPop" class="link-card external-link" target="_blank">
+                    <span class="link-emoji">📺</span>
+                    <div class="link-title">SakuraPop YouTube</div>
+                    <div class="link-desc">Music videos for each week's phrases. Subscribe & turn on notifications! 🔔</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Lesson Slides - Weeks 1-3 -->
+        <div class="section">
+            <h2><span class="section-icon">📊</span> Lesson Slides (Weeks 1-3)</h2>
+            <div class="links-grid">
+                <a href="week1-slides.html" class="link-card">
+                    <span class="week-label">Week 1</span>
+                    <span class="link-emoji">✈️</span>
+                    <div class="link-title">Landing in Japan</div>
+                    <div class="link-desc">Basic greetings: Konnichiwa, Hajimemashite, Arigatou, Sayounara</div>
+                </a>
+
+                <a href="week2-slides.html" class="link-card">
+                    <span class="week-label">Week 2</span>
+                    <span class="link-emoji">🏨</span>
+                    <div class="link-title">Hotel Check-In</div>
+                    <div class="link-desc">Expressing feelings: Genki?, Genki desu!, Maa maa, Sumimasen</div>
+                </a>
+
+                <a href="week3-slides.html" class="link-card">
+                    <span class="week-label">Week 3</span>
+                    <span class="link-emoji">👋</span>
+                    <div class="link-title">Making Friends</div>
+                    <div class="link-desc">Introductions: Name, age, and "Let's play together!"</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Lesson Slides - Weeks 4-9 -->
+        <div class="section">
+            <h2><span class="section-icon">📊</span> Lesson Slides (Weeks 4-9)</h2>
+            <div class="links-grid">
+                <div class="link-card locked">
+                    <span class="lock-badge">Coming Soon</span>
+                    <span class="link-emoji">🍱</span>
+                    <div class="link-title">Week 4: Restaurant Manners</div>
+                    <div class="link-desc">Polite eating phrases: Itadakimasu, Gochisousama, Onegaishimasu</div>
+                </div>
+
+                <div class="link-card locked">
+                    <span class="lock-badge">Coming Soon</span>
+                    <span class="link-emoji">🍜</span>
+                    <div class="link-title">Week 5: Ramen Shop</div>
+                    <div class="link-desc">Ordering food: Kore kudasai, Oishii!, Mizu kudasai</div>
+                </div>
+
+                <div class="link-card locked">
+                    <span class="lock-badge">Coming Soon</span>
+                    <span class="link-emoji">🏪</span>
+                    <div class="link-title">Week 6: Convenience Store</div>
+                    <div class="link-desc">Shopping basics: Ikura desu ka?, Fukuro wa iranai desu</div>
+                </div>
+
+                <div class="link-card locked">
+                    <span class="lock-badge">Coming Soon</span>
+                    <span class="link-emoji">🦌</span>
+                    <div class="link-title">Week 7: Nara Deer Park</div>
+                    <div class="link-desc">Animal interactions: Kawaii!, Abunai!, Shika senbei kudasai</div>
+                </div>
+
+                <div class="link-card locked">
+                    <span class="lock-badge">Coming Soon</span>
+                    <span class="link-emoji">🚄</span>
+                    <div class="link-title">Week 8: Train Survival</div>
+                    <div class="link-desc">Navigation: Eki wa doko?, Toire wa doko?, Daijoubu desu</div>
+                </div>
+
+                <div class="link-card locked">
+                    <span class="lock-badge">Coming Soon</span>
+                    <span class="link-emoji">🏰</span>
+                    <div class="link-title">Week 9: Tokyo Disneyland</div>
+                    <div class="link-desc">Theme park phrases: Narabitai desu, Shashin onegaishimasu</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lesson Slides - Weeks 10-15 -->
+        <div class="section">
+            <h2><span class="section-icon">📊</span> Lesson Slides (Weeks 10-15)</h2>
+            <div class="links-grid">
+                <div class="link-card locked">
+                    <span class="lock-badge">Coming Soon</span>
+                    <span class="link-emoji">🆘</span>
+                    <div class="link-title">Week 10: Help & Emergencies</div>
+                    <div class="link-desc">Emergency phrases: Tasukete, Wakarimasen, Yukkuri onegaishimasu</div>
+                </div>
+
+                <div class="link-card locked">
+                    <span class="lock-badge">Coming Soon</span>
+                    <span class="link-emoji">🎁</span>
+                    <div class="link-title">Week 11: Souvenir Shopping</div>
+                    <div class="link-desc">Omiyage shopping: Takai!, Yasui!, Kore to kore kudasai</div>
+                </div>
+
+                <div class="link-card locked">
+                    <span class="lock-badge">Coming Soon</span>
+                    <span class="link-emoji">💴</span>
+                    <div class="link-title">Week 12: Numbers & Money</div>
+                    <div class="link-desc">Counting and prices: Numbers 1-10, Yen, Otsuri</div>
+                </div>
+
+                <div class="link-card locked">
+                    <span class="lock-badge">Coming Soon</span>
+                    <span class="link-emoji">👨‍👩‍👧‍👦</span>
+                    <div class="link-title">Week 13: Family Introductions</div>
+                    <div class="link-desc">Talking about family: Kazoku, Otousan, Okaasan</div>
+                </div>
+
+                <div class="link-card locked">
+                    <span class="lock-badge">Coming Soon</span>
+                    <span class="link-emoji">😊</span>
+                    <div class="link-title">Week 14: Feelings & Experiences</div>
+                    <div class="link-desc">Emotions: Tanoshii!, Kowai, Tsukareta, Sugoi!</div>
+                </div>
+
+                <div class="link-card locked">
+                    <span class="lock-badge">Coming Soon</span>
+                    <span class="link-emoji">⛩️</span>
+                    <div class="link-title">Week 15: Temple & Shrine Visit</div>
+                    <div class="link-desc">Sacred sites: Otera, Jinja, Omairi, Omikuji</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lesson Slides - Weeks 16-18 -->
+        <div class="section">
+            <h2><span class="section-icon">🎓</span> Final Weeks & Graduation</h2>
+            <div class="links-grid">
+                <div class="link-card locked">
+                    <span class="lock-badge">Coming Soon</span>
+                    <span class="link-emoji">❤️</span>
+                    <div class="link-title">Week 16: Parent Week (Special!)</div>
+                    <div class="link-desc">Parents join as Japanese locals - family teamwork!</div>
+                </div>
+
+                <div class="link-card locked">
+                    <span class="lock-badge">Coming Soon</span>
+                    <span class="link-emoji">🗼</span>
+                    <div class="link-title">Week 17: Full Tokyo Day Simulation</div>
+                    <div class="link-desc">Complete review: Morning to night in Tokyo</div>
+                </div>
+
+                <div class="link-card locked">
+                    <span class="lock-badge">Coming Soon</span>
+                    <span class="link-emoji">🎓</span>
+                    <div class="link-title">Week 18: Final Rehearsal & Graduation</div>
+                    <div class="link-desc">Ultimate challenge + certificate ceremony!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Resources -->
+        <div class="section">
+            <h2><span class="section-icon">📚</span> Additional Resources</h2>
+            <div class="links-grid">
+                <a href="#" class="link-card" onclick="alert('Download the curriculum PDF from your files!'); return false;">
+                    <span class="link-emoji">📖</span>
+                    <div class="link-title">18-Week Curriculum</div>
+                    <div class="link-desc">Complete lesson plans, missions, and cultural notes</div>
+                </a>
+
+                <a href="#" class="link-card" onclick="alert('WhatsApp group link - check your messages!'); return false;">
+                    <span class="link-emoji">💬</span>
+                    <div class="link-title">WhatsApp Group</div>
+                    <div class="link-desc">Weekly missions, practice videos, and family updates</div>
+                </a>
+
+                <a href="#" class="link-card external-link">
+                    <span class="link-emoji">🎵</span>
+                    <div class="link-title">Practice Audio Files</div>
+                    <div class="link-desc">Download MP3s of all phrases for offline practice</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; color: white; margin-top: 50px; padding: 30px;">
+            <div style="font-size: 48px; margin-bottom: 20px;">🌸</div>
+            <div style="font-size: 32px; font-weight: bold; margin-bottom: 10px;">がんばりましょう！</div>
+            <div style="font-size: 18px; opacity: 0.9;">Let's do our best together!</div>
+            <div style="margin-top: 30px; font-size: 14px; opacity: 0.8;">
+                Japan Trip 2026 • 18-Week Journey • June 22, 2026
+            </div>
+        </div>
+    </div>
+</body>
+</html>
