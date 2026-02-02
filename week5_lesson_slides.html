@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 5: Ramen Shop Adventure</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #1a1a1a;
+            overflow: hidden;
+        }
+        .slide-container { width: 100vw; height: 100vh; position: relative; }
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+            text-align: center;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .slide.active { display: flex; flex-direction: column; }
+        .slide-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+        .slide-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .title-slide { background: linear-gradient(135deg, #ff6f00 0%, #e65100 100%); }
+        .title-slide h1 {
+            font-size: 80px;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        }
+        .title-slide .emoji {
+            font-size: 120px;
+            margin-bottom: 30px;
+            animation: bounce 2s infinite;
+        }
+        .title-slide .subtitle {
+            font-size: 40px;
+            color: #fff3e0;
+            margin-bottom: 40px;
+        }
+        .countdown-box {
+            background: rgba(255,255,255,0.2);
+            padding: 20px 40px;
+            border-radius: 15px;
+            font-size: 28px;
+            color: white;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .phrase-slide { background: linear-gradient(135deg, #ff6f00 0%, #e65100 100%); }
+        .phrase-box {
+            background: white;
+            padding: 60px;
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            margin: 20px 0;
+        }
+        .phrase-romaji {
+            font-size: 70px;
+            color: #ff6f00;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .phrase-hiragana {
+            font-size: 50px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .phrase-pronunciation {
+            font-size: 35px;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+        .phrase-meaning {
+            font-size: 45px;
+            color: #333;
+            background: #fff3e0;
+            padding: 20px;
+            border-radius: 15px;
+            border: 3px solid #ffa726;
+        }
+
+        .culture-slide { background: linear-gradient(135deg, #8e24aa 0%, #6a1b9a 100%); }
+        .roleplay-slide { background: linear-gradient(135deg, #7b1fa2 0%, #4a148c 100%); }
+        .scenario-box {
+            background: white;
+            padding: 50px;
+            border-radius: 25px;
+            margin: 30px 0;
+            max-width: 900px;
+        }
+        .scenario-title {
+            font-size: 50px;
+            color: #7b1fa2;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+        .dialogue {
+            text-align: left;
+            font-size: 32px;
+            line-height: 2;
+            color: #333;
+        }
+        .dialogue-line {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+        .speaker {
+            font-weight: bold;
+            color: #ff6f00;
+        }
+
+        .mission-slide { background: linear-gradient(135deg, #388e3c 0%, #1b5e20 100%); }
+        .mission-box {
+            background: white;
+            padding: 50px;
+            border-radius: 25px;
+            border: 5px solid #ffd700;
+        }
+        .mission-title {
+            font-size: 55px;
+            color: #388e3c;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+        .mission-item {
+            font-size: 30px;
+            color: #333;
+            margin: 25px 0;
+            text-align: left;
+            padding-left: 50px;
+        }
+        .mission-item::before {
+            content: "✓ ";
+            color: #388e3c;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        .bonus {
+            background: #fff9e6;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border: 3px solid #ffa726;
+        }
+
+        .nav-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+            display: flex;
+            gap: 15px;
+        }
+        .nav-btn {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            padding: 15px 30px;
+            font-size: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+        .nav-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+        }
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 100;
+            background: rgba(255,255,255,0.9);
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .slide.active .slide-content { animation: fadeIn 0.6s ease-out; }
+        .slide h2 {
+            font-size: 60px;
+            color: white;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <!-- Slide 1: Title -->
+        <div class="slide title-slide active">
+            <div class="slide-content">
+                <div class="emoji">🍜</div>
+                <h1>WEEK 5</h1>
+                <div class="subtitle">Ramen Shop Adventure</div>
+                <div class="countdown-box">
+                    ⏰ 16 weeks until Japan! ⏰
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Today's Goal -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <h2>Today's Learning Goal 🎯</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 45px; color: #333; line-height: 1.8;">
+                        Ordering from vending machine<br>
+                        and food-specific phrases<br><br>
+                        <strong style="color: #ff6f00;">
+                        Get ready for REAL ramen shops! 🍜
+                        </strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Phrase 1 - Kore kudasai -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <h2>Phrase 1 📢</h2>
+                <div class="phrase-box">
+                    <div class="phrase-romaji">Kore kudasai</div>
+                    <div class="phrase-hiragana">これください</div>
+                    <div class="phrase-pronunciation">(koh-reh koo-dah-sigh)</div>
+                    <div class="phrase-meaning">This please</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Phrase 2 - Oishii -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <h2>Phrase 2 📢</h2>
+                <div class="phrase-box">
+                    <div class="phrase-romaji">Oishii!</div>
+                    <div class="phrase-hiragana">おいしい!</div>
+                    <div class="phrase-pronunciation">(oy-shee)</div>
+                    <div class="phrase-meaning">Delicious!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Phrase 3 - Mizu kudasai -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <h2>Phrase 3 📢</h2>
+                <div class="phrase-box">
+                    <div class="phrase-romaji">Mizu kudasai</div>
+                    <div class="phrase-hiragana">みずください</div>
+                    <div class="phrase-pronunciation">(mee-zoo koo-dah-sigh)</div>
+                    <div class="phrase-meaning">Water please</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Phrase 4 - Okawari kudasai -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <h2>Phrase 4 📢</h2>
+                <div class="phrase-box">
+                    <div class="phrase-romaji">Okawari kudasai</div>
+                    <div class="phrase-hiragana">おかわりください</div>
+                    <div class="phrase-pronunciation">(oh-kah-wah-ree koo-dah-sigh)</div>
+                    <div class="phrase-meaning">Refill please / More please</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Pointing Practice -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <h2>Point + Say 👉</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 45px; color: #333; line-height: 2;">
+                        <strong style="color: #ff6f00;">Point at what you want</strong><br>
+                        then say:<br><br>
+                        <strong style="color: #4caf50; font-size: 55px;">"Kore kudasai"</strong><br><br>
+                        <em style="font-size: 32px; color: #666;">
+                        Practice pointing with confidence!
+                        </em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Slurping is Polite! -->
+        <div class="slide culture-slide">
+            <div class="slide-content">
+                <h2>🍜 Important Culture Tip!</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 50px; color: #333; line-height: 1.8;">
+                        <strong style="color: #8e24aa;">SLURPING IS POLITE!</strong><br><br>
+                        <div style="font-size: 38px;">
+                        In Japan, slurping your noodles<br>
+                        shows the chef you love it! 😋<br><br>
+                        The LOUDER, the BETTER!<br><br>
+                        <em style="font-size: 32px; color: #666;">
+                        Let's practice slurping!
+                        </em>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Vending Machine Magic -->
+        <div class="slide culture-slide">
+            <div class="slide-content">
+                <h2>🎰 Ramen Vending Machines</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 35px; color: #333; line-height: 1.8;">
+                        Many ramen shops have ticket machines!<br><br>
+                        <strong style="color: #8e24aa;">How it works:</strong><br>
+                        1️⃣ Look at menu on machine (pictures!)<br>
+                        2️⃣ Point + say "Kore kudasai"<br>
+                        3️⃣ Insert money<br>
+                        4️⃣ Get ticket<br>
+                        5️⃣ Give ticket to chef<br><br>
+                        <strong style="color: #ff6f00;">Then wait for delicious ramen!</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Ramen Types -->
+        <div class="slide culture-slide">
+            <div class="slide-content">
+                <h2>🍜 Types of Ramen</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 38px; color: #333; line-height: 1.8;">
+                        <strong style="color: #8e24aa;">Popular ramen flavors:</strong><br><br>
+                        🍜 <strong>Shoyu</strong> - Soy sauce flavor<br>
+                        🍜 <strong>Miso</strong> - Fermented soybean paste<br>
+                        🍜 <strong>Tonkotsu</strong> - Creamy pork bone broth<br><br>
+                        <em style="font-size: 32px; color: #666;">
+                        All are AMAZING! You'll try them in June!
+                        </em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Role Play Setup -->
+        <div class="slide roleplay-slide">
+            <div class="slide-content">
+                <h2>🎭 Role Play Time!</h2>
+                <div class="scenario-box">
+                    <div class="scenario-title">Scene: Ramen Shop</div>
+                    <div style="font-size: 28px; color: #666; margin-bottom: 30px;">
+                        You enter a ramen shop with a ticket vending machine.<br>
+                        Let's practice the whole experience!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Role Play Script - Part 1 -->
+        <div class="slide roleplay-slide">
+            <div class="slide-content">
+                <div class="scenario-box">
+                    <div class="dialogue">
+                        <div class="dialogue-line">
+                            <strong style="color: #8e24aa;">STEP 1: At the vending machine</strong>
+                        </div>
+                        <div class="dialogue-line">
+                            <span class="speaker">You:</span> Look at menu, point at ramen
+                        </div>
+                        <div class="dialogue-line">
+                            <span class="speaker">You:</span> <em>"Kore kudasai"</em>
+                        </div>
+                        <div class="dialogue-line">
+                            <span class="speaker">You:</span> *Insert money, get ticket*
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Role Play Script - Part 2 -->
+        <div class="slide roleplay-slide">
+            <div class="slide-content">
+                <div class="scenario-box">
+                    <div class="dialogue">
+                        <div class="dialogue-line">
+                            <strong style="color: #8e24aa;">STEP 2: Give ticket to chef</strong>
+                        </div>
+                        <div class="dialogue-line">
+                            <span class="speaker">You:</span> *Hand ticket to chef*
+                        </div>
+                        <div class="dialogue-line">
+                            <span class="speaker">Chef:</span> *Brings ramen*
+                        </div>
+                        <div class="dialogue-line">
+                            <span class="speaker">You:</span> <em>"Itadakimasu!"</em>
+                        </div>
+                        <div class="dialogue-line">
+                            <span class="speaker">You:</span> *SLURP loudly!* 🍜
+                        </div>
+                        <div class="dialogue-line">
+                            <span class="speaker">You:</span> <em>"Oishii!"</em> 😋
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Role Play Script - Part 3 -->
+        <div class="slide roleplay-slide">
+            <div class="slide-content">
+                <div class="scenario-box">
+                    <div class="dialogue">
+                        <div class="dialogue-line">
+                            <strong style="color: #8e24aa;">STEP 3: During the meal</strong>
+                        </div>
+                        <div class="dialogue-line">
+                            <span class="speaker">You:</span> <em>"Mizu kudasai"</em> (if thirsty)
+                        </div>
+                        <div class="dialogue-line">
+                            <span class="speaker">Chef:</span> *Brings water*
+                        </div>
+                        <div class="dialogue-line">
+                            <span class="speaker">You:</span> <em>"Arigatou!"</em>
+                        </div>
+                        <div class="dialogue-line">
+                            <span class="speaker">You:</span> *Finish eating*
+                        </div>
+                        <div class="dialogue-line">
+                            <span class="speaker">You:</span> <em>"Gochisousama deshita!"</em>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Wrong Order Game -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <h2>Game: Wrong Order Challenge! 🎯</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 35px; color: #333; line-height: 1.8;">
+                        Sensei will bring you the WRONG ramen!<br><br>
+                        <strong style="color: #ff6f00;">Your job:</strong><br>
+                        Politely correct and ask for what you want<br><br>
+                        <strong style="color: #4caf50;">Use:</strong><br>
+                        ✓ Sumimasen<br>
+                        ✓ Kore kudasai (point to correct one)<br>
+                        ✓ Arigatou<br><br>
+                        <em style="font-size: 28px; color: #666;">
+                        Ready? Let's play!
+                        </em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Ramen Manners -->
+        <div class="slide culture-slide">
+            <div class="slide-content">
+                <h2>🥢 Ramen Shop Manners</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 35px; color: #333; line-height: 1.8;">
+                        <strong style="color: #8e24aa;">Do:</strong><br>
+                        ✓ Slurp loudly<br>
+                        ✓ Finish your bowl<br>
+                        ✓ Say Itadakimasu & Gochisousama<br>
+                        ✓ Eat quickly (ramen is fast food!)<br><br>
+                        <strong style="color: #f44336;">Don't:</strong><br>
+                        ✗ Talk too much while eating<br>
+                        ✗ Use phone at counter<br>
+                        ✗ Leave lots of broth<br>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: Mission of the Week -->
+        <div class="slide mission-slide">
+            <div class="slide-content">
+                <div class="mission-box">
+                    <div class="mission-title">🎯 Mission of the Week</div>
+                    <div class="mission-item">Order one imaginary food item from parent in Japanese (point + "kore kudasai")</div>
+                    <div class="mission-item">Practice slurping noodles at home (can be spaghetti!)</div>
+                    
+                    <div class="bonus">
+                        <div style="font-size: 35px; color: #f57c00; font-weight: bold; margin-bottom: 15px;">
+                            ⭐ BONUS Mission
+                        </div>
+                        <div style="font-size: 28px; color: #333;">
+                            Video yourself slurping noodles →<br>
+                            Post to WhatsApp!<br>
+                            Make it LOUD! 🍜
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: Passport Stamp -->
+        <div class="slide title-slide">
+            <div class="slide-content">
+                <div style="font-size: 100px; margin-bottom: 30px;">🎫</div>
+                <h1 style="font-size: 60px;">Earn Your Fifth Stamp!</h1>
+                <div class="phrase-box" style="background: white; margin-top: 40px;">
+                    <div style="font-size: 50px; color: #ff6f00; font-weight: bold;">
+                        🍜 RAMEN EXPERT
+                    </div>
+                    <div style="font-size: 30px; color: #666; margin-top: 20px;">
+                        Complete this week's mission to earn it!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 19: Closing -->
+        <div class="slide title-slide">
+            <div class="slide-content">
+                <div style="font-size: 100px; margin-bottom: 30px;">🌸</div>
+                <h1>Otsukaresama!</h1>
+                <div class="subtitle" style="font-size: 35px;">
+                    (Good job! You worked hard!)
+                </div>
+                <div class="phrase-box" style="margin-top: 50px;">
+                    <div style="font-size: 40px; color: #333;">
+                        Now you're ready for ramen shops!<br>
+                        Practice your slurping! 🍜<br>
+                        <strong style="color: #ff6f00;">Mata ne! 👋</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="slide-counter">
+        <span id="currentSlide">1</span> / <span id="totalSlides">19</span>
+    </div>
+    
+    <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>
