@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Hiragana Chart - Japan Trip 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            color: #764ba2;
+            font-size: 1.3em;
+            font-weight: 500;
+        }
+
+        .legend {
+            background: #f0f4ff;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .legend p {
+            font-size: 1.2em;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .section-title {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 40px 0 20px 0;
+            font-size: 1.8em;
+            text-align: center;
+        }
+
+        .hiragana-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .hiragana-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            font-size: 1.2em;
+            border: 2px solid white;
+        }
+
+        .hiragana-table td {
+            padding: 15px;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+            background: white;
+        }
+
+        .hiragana {
+            font-size: 2.5em;
+            color: #667eea;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .romaji {
+            font-size: 1.2em;
+            color: #764ba2;
+            font-weight: 600;
+            display: block;
+        }
+
+        .pronunciation {
+            font-size: 0.9em;
+            color: #888;
+            font-style: italic;
+        }
+
+        .empty-cell {
+            background: #f5f5f5 !important;
+        }
+
+        .notes-section {
+            background: #fff3e0;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border-left: 5px solid #ff9800;
+        }
+
+        .notes-section h3 {
+            color: #e65100;
+            margin-bottom: 15px;
+            font-size: 1.6em;
+        }
+
+        .notes-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .notes-section li {
+            font-size: 1.1em;
+            line-height: 1.8;
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .notes-section li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #ff9800;
+            font-weight: bold;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📝 Complete Hiragana Chart</h1>
+            <div class="subtitle">All Japanese Sounds</div>
+        </div>
+
+        <div class="legend">
+            <p><strong>How to Read:</strong> Top = Hiragana Character | Middle = Romaji | Bottom = How to Say It</p>
+        </div>
+
+        <div class="section-title">🌟 Basic Hiragana</div>
+        
+        <table class="hiragana-table">
+            <tr>
+                <th>Row</th>
+                <th>A</th>
+                <th>I</th>
+                <th>U</th>
+                <th>E</th>
+                <th>O</th>
+            </tr>
+            <tr>
+                <th>Vowels</th>
+                <td>
+                    <span class="hiragana">あ</span>
+                    <span class="romaji">a</span>
+                    <span class="pronunciation">AH</span>
+                </td>
+                <td>
+                    <span class="hiragana">い</span>
+                    <span class="romaji">i</span>
+                    <span class="pronunciation">EE</span>
+                </td>
+                <td>
+                    <span class="hiragana">う</span>
+                    <span class="romaji">u</span>
+                    <span class="pronunciation">OO</span>
+                </td>
+                <td>
+                    <span class="hiragana">え</span>
+                    <span class="romaji">e</span>
+                    <span class="pronunciation">EH</span>
+                </td>
+                <td>
+                    <span class="hiragana">お</span>
+                    <span class="romaji">o</span>
+                    <span class="pronunciation">OH</span>
+                </td>
+            </tr>
+            <tr>
+                <th>K</th>
+                <td><span class="hiragana">か</span><span class="romaji">ka</span><span class="pronunciation">kah</span></td>
+                <td><span class="hiragana">き</span><span class="romaji">ki</span><span class="pronunciation">kee</span></td>
+                <td><span class="hiragana">く</span><span class="romaji">ku</span><span class="pronunciation">koo</span></td>
+                <td><span class="hiragana">け</span><span class="romaji">ke</span><span class="pronunciation">keh</span></td>
+                <td><span class="hiragana">こ</span><span class="romaji">ko</span><span class="pronunciation">koh</span></td>
+            </tr>
+            <tr>
+                <th>S</th>
+                <td><span class="hiragana">さ</span><span class="romaji">sa</span><span class="pronunciation">sah</span></td>
+                <td><span class="hiragana">し</span><span class="romaji">shi</span><span class="pronunciation">shee</span></td>
+                <td><span class="hiragana">す</span><span class="romaji">su</span><span class="pronunciation">soo</span></td>
+                <td><span class="hiragana">せ</span><span class="romaji">se</span><span class="pronunciation">seh</span></td>
+                <td><span class="hiragana">そ</span><span class="romaji">so</span><span class="pronunciation">soh</span></td>
+            </tr>
+            <tr>
+                <th>T</th>
+                <td><span class="hiragana">た</span><span class="romaji">ta</span><span class="pronunciation">tah</span></td>
+                <td><span class="hiragana">ち</span><span class="romaji">chi</span><span class="pronunciation">chee</span></td>
+                <td><span class="hiragana">つ</span><span class="romaji">tsu</span><span class="pronunciation">tsoo</span></td>
+                <td><span class="hiragana">て</span><span class="romaji">te</span><span class="pronunciation">teh</span></td>
+                <td><span class="hiragana">と</span><span class="romaji">to</span><span class="pronunciation">toh</span></td>
+            </tr>
+            <tr>
+                <th>N</th>
+                <td><span class="hiragana">な</span><span class="romaji">na</span><span class="pronunciation">nah</span></td>
+                <td><span class="hiragana">に</span><span class="romaji">ni</span><span class="pronunciation">nee</span></td>
+                <td><span class="hiragana">ぬ</span><span class="romaji">nu</span><span class="pronunciation">noo</span></td>
+                <td><span class="hiragana">ね</span><span class="romaji">ne</span><span class="pronunciation">neh</span></td>
+                <td><span class="hiragana">の</span><span class="romaji">no</span><span class="pronunciation">noh</span></td>
+            </tr>
+            <tr>
+                <th>H</th>
+                <td><span class="hiragana">は</span><span class="romaji">ha</span><span class="pronunciation">hah</span></td>
+                <td><span class="hiragana">ひ</span><span class="romaji">hi</span><span class="pronunciation">hee</span></td>
+                <td><span class="hiragana">ふ</span><span class="romaji">fu</span><span class="pronunciation">foo</span></td>
+                <td><span class="hiragana">へ</span><span class="romaji">he</span><span class="pronunciation">heh</span></td>
+                <td><span class="hiragana">ほ</span><span class="romaji">ho</span><span class="pronunciation">hoh</span></td>
+            </tr>
+            <tr>
+                <th>M</th>
+                <td><span class="hiragana">ま</span><span class="romaji">ma</span><span class="pronunciation">mah</span></td>
+                <td><span class="hiragana">み</span><span class="romaji">mi</span><span class="pronunciation">mee</span></td>
+                <td><span class="hiragana">む</span><span class="romaji">mu</span><span class="pronunciation">moo</span></td>
+                <td><span class="hiragana">め</span><span class="romaji">me</span><span class="pronunciation">meh</span></td>
+                <td><span class="hiragana">も</span><span class="romaji">mo</span><span class="pronunciation">moh</span></td>
+            </tr>
+            <tr>
+                <th>Y</th>
+                <td><span class="hiragana">や</span><span class="romaji">ya</span><span class="pronunciation">yah</span></td>
+                <td class="empty-cell">-</td>
+                <td><span class="hiragana">ゆ</span><span class="romaji">yu</span><span class="pronunciation">yoo</span></td>
+                <td class="empty-cell">-</td>
+                <td><span class="hiragana">よ</span><span class="romaji">yo</span><span class="pronunciation">yoh</span></td>
+            </tr>
+            <tr>
+                <th>R</th>
+                <td><span class="hiragana">ら</span><span class="romaji">ra</span><span class="pronunciation">rah</span></td>
+                <td><span class="hiragana">り</span><span class="romaji">ri</span><span class="pronunciation">ree</span></td>
+                <td><span class="hiragana">る</span><span class="romaji">ru</span><span class="pronunciation">roo</span></td>
+                <td><span class="hiragana">れ</span><span class="romaji">re</span><span class="pronunciation">reh</span></td>
+                <td><span class="hiragana">ろ</span><span class="romaji">ro</span><span class="pronunciation">roh</span></td>
+            </tr>
+            <tr>
+                <th>W</th>
+                <td><span class="hiragana">わ</span><span class="romaji">wa</span><span class="pronunciation">wah</span></td>
+                <td class="empty-cell">-</td>
+                <td class="empty-cell">-</td>
+                <td class="empty-cell">-</td>
+                <td><span class="hiragana">を</span><span class="romaji">wo</span><span class="pronunciation">oh</span></td>
+            </tr>
+            <tr>
+                <th>N</th>
+                <td colspan="5"><span class="hiragana">ん</span><span class="romaji">n</span><span class="pronunciation">"n" (pan)</span></td>
+            </tr>
+        </table>
+
+        <div class="section-title">💫 G, Z, D, B, P Sounds</div>
+        
+        <table class="hiragana-table">
+            <tr>
+                <th>Row</th>
+                <th>A</th>
+                <th>I</th>
+                <th>U</th>
+                <th>E</th>
+                <th>O</th>
+            </tr>
+            <tr>
+                <th>G</th>
+                <td><span class="hiragana">が</span><span class="romaji">ga</span><span class="pronunciation">gah</span></td>
+                <td><span class="hiragana">ぎ</span><span class="romaji">gi</span><span class="pronunciation">gee</span></td>
+                <td><span class="hiragana">ぐ</span><span class="romaji">gu</span><span class="pronunciation">goo</span></td>
+                <td><span class="hiragana">げ</span><span class="romaji">ge</span><span class="pronunciation">geh</span></td>
+                <td><span class="hiragana">ご</span><span class="romaji">go</span><span class="pronunciation">goh</span></td>
+            </tr>
+            <tr>
+                <th>Z</th>
+                <td><span class="hiragana">ざ</span><span class="romaji">za</span><span class="pronunciation">zah</span></td>
+                <td><span class="hiragana">じ</span><span class="romaji">ji</span><span class="pronunciation">jee</span></td>
+                <td><span class="hiragana">ず</span><span class="romaji">zu</span><span class="pronunciation">zoo</span></td>
+                <td><span class="hiragana">ぜ</span><span class="romaji">ze</span><span class="pronunciation">zeh</span></td>
+                <td><span class="hiragana">ぞ</span><span class="romaji">zo</span><span class="pronunciation">zoh</span></td>
+            </tr>
+            <tr>
+                <th>D</th>
+                <td><span class="hiragana">だ</span><span class="romaji">da</span><span class="pronunciation">dah</span></td>
+                <td><span class="hiragana">ぢ</span><span class="romaji">ji</span><span class="pronunciation">jee</span></td>
+                <td><span class="hiragana">づ</span><span class="romaji">zu</span><span class="pronunciation">zoo</span></td>
+                <td><span class="hiragana">で</span><span class="romaji">de</span><span class="pronunciation">deh</span></td>
+                <td><span class="hiragana">ど</span><span class="romaji">do</span><span class="pronunciation">doh</span></td>
+            </tr>
+            <tr>
+                <th>B</th>
+                <td><span class="hiragana">ば</span><span class="romaji">ba</span><span class="pronunciation">bah</span></td>
+                <td><span class="hiragana">び</span><span class="romaji">bi</span><span class="pronunciation">bee</span></td>
+                <td><span class="hiragana">ぶ</span><span class="romaji">bu</span><span class="pronunciation">boo</span></td>
+                <td><span class="hiragana">べ</span><span class="romaji">be</span><span class="pronunciation">beh</span></td>
+                <td><span class="hiragana">ぼ</span><span class="romaji">bo</span><span class="pronunciation">boh</span></td>
+            </tr>
+            <tr>
+                <th>P</th>
+                <td><span class="hiragana">ぱ</span><span class="romaji">pa</span><span class="pronunciation">pah</span></td>
+                <td><span class="hiragana">ぴ</span><span class="romaji">pi</span><span class="pronunciation">pee</span></td>
+                <td><span class="hiragana">ぷ</span><span class="romaji">pu</span><span class="pronunciation">poo</span></td>
+                <td><span class="hiragana">ぺ</span><span class="romaji">pe</span><span class="pronunciation">peh</span></td>
+                <td><span class="hiragana">ぽ</span><span class="romaji">po</span><span class="pronunciation">poh</span></td>
+            </tr>
+        </table>
+
+        <div class="notes-section">
+            <h3>📝 Pronunciation Tips</h3>
+            <ul>
+                <li><strong>R sounds:</strong> Between English R and L - tap tongue lightly</li>
+                <li><strong>SHI and CHI:</strong> NOT "si" or "ti" - say "shee" and "chee"</li>
+                <li><strong>TSU:</strong> Like "tsunami" - the "ts" at the start</li>
+                <li><strong>FU:</strong> Blow air gently (like blowing out a candle)</li>
+                <li><strong>Vowels NEVER change!</strong> A=AH, I=EE, U=OO, E=EH, O=OH</li>
+            </ul>
+        </div>
+
+        <div style="text-align: center; margin-top: 50px; padding-top: 30px; border-top: 2px solid #e0e0e0;">
+            <p style="font-size: 1.8em; color: #667eea; font-weight: bold;">Practice makes perfect! 🌸</p>
+        </div>
+    </div>
+</body>
+</html>

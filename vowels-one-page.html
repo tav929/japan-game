@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japanese Vowels - One Page Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: letter;
+            margin: 0.5in;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: white;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 8.5in;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #764ba2;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .key-rule {
+            background: #fff3cd;
+            border: 3px solid #ffc107;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .key-rule p {
+            font-size: 1.1em;
+            color: #856404;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        .vowels-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .vowel-box {
+            border: 3px solid #667eea;
+            border-radius: 12px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        }
+
+        .vowel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .hiragana {
+            font-size: 4em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .romaji {
+            font-size: 3em;
+            font-weight: bold;
+            color: #764ba2;
+        }
+
+        .pronunciation {
+            background: #667eea;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 1.3em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .examples {
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        .example-item {
+            margin: 5px 0;
+        }
+
+        .example-item strong {
+            color: #e91e63;
+        }
+
+        .practice-box {
+            background: #e8f5e9;
+            border: 2px solid #388e3c;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .practice-box h2 {
+            color: #388e3c;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .practice-text {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #d32f2f;
+            letter-spacing: 3px;
+            margin: 10px 0;
+        }
+
+        .practice-box p {
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+            }
+            .container {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗣️ Japanese Vowels Guide</h1>
+        <div class="subtitle">Master These 5 Sounds - They Never Change!</div>
+
+        <div class="key-rule">
+            <p>⭐ <strong>GOLDEN RULE:</strong> Japanese vowels are ALWAYS the same!<br>
+            Unlike English, each vowel makes only ONE sound - learn these 5 and you're done! ⭐</p>
+        </div>
+
+        <div class="vowels-grid">
+            <!-- Vowel A -->
+            <div class="vowel-box">
+                <div class="vowel-header">
+                    <div class="hiragana">あ</div>
+                    <div class="romaji">A</div>
+                </div>
+                <div class="pronunciation">Sounds like: "AH"</div>
+                <div class="examples">
+                    <div class="example-item">🎵 F<strong>A</strong>ther</div>
+                    <div class="example-item">🍝 P<strong>A</strong>sta</div>
+                </div>
+            </div>
+
+            <!-- Vowel I -->
+            <div class="vowel-box">
+                <div class="vowel-header">
+                    <div class="hiragana">い</div>
+                    <div class="romaji">I</div>
+                </div>
+                <div class="pronunciation">Sounds like: "EE"</div>
+                <div class="examples">
+                    <div class="example-item">🧀 Ch<strong>EE</strong>se</div>
+                    <div class="example-item">👀 S<strong>EE</strong></div>
+                </div>
+            </div>
+
+            <!-- Vowel U -->
+            <div class="vowel-box">
+                <div class="vowel-header">
+                    <div class="hiragana">う</div>
+                    <div class="romaji">U</div>
+                </div>
+                <div class="pronunciation">Sounds like: "OO"</div>
+                <div class="examples">
+                    <div class="example-item">🍲 F<strong>OO</strong>d</div>
+                    <div class="example-item">🌙 M<strong>OO</strong>n</div>
+                </div>
+            </div>
+
+            <!-- Vowel E -->
+            <div class="vowel-box">
+                <div class="vowel-header">
+                    <div class="hiragana">え</div>
+                    <div class="romaji">E</div>
+                </div>
+                <div class="pronunciation">Sounds like: "EH"</div>
+                <div class="examples">
+                    <div class="example-item">🔴 R<strong>E</strong>d</div>
+                    <div class="example-item">🛏️ B<strong>E</strong>d</div>
+                </div>
+            </div>
+
+            <!-- Vowel O -->
+            <div class="vowel-box">
+                <div class="vowel-header">
+                    <div class="hiragana">お</div>
+                    <div class="romaji">O</div>
+                </div>
+                <div class="pronunciation">Sounds like: "OH"</div>
+                <div class="examples">
+                    <div class="example-item">🚶 G<strong>O</strong></div>
+                    <div class="example-item">😮 <strong>OH</strong>!</div>
+                </div>
+            </div>
+
+            <!-- Practice Box spans 2 columns -->
+            <div class="vowel-box" style="grid-column: span 2; background: #e8f5e9; border-color: #388e3c;">
+                <h2 style="color: #388e3c; font-size: 1.5em; margin-bottom: 10px;">🎯 Practice Daily!</h2>
+                <div class="practice-text">A - I - U - E - O</div>
+                <div class="practice-text" style="font-size: 1.5em; color: #555;">(AH - EE - OO - EH - OH)</div>
+                <p style="margin-top: 10px; font-size: 1em; color: #555;">Say this 5 times every day! Once you master these, you can pronounce ANY Japanese word! 🌸</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
