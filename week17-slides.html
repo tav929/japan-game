@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 17: Full Tokyo Day Simulation - Japan Trip 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            overflow: hidden;
+        }
+
+        .slides-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        .slide-content {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .title-slide {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+        }
+
+        .title-slide h1 {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .title-slide .subtitle {
+            font-size: 45px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .title-slide .week-info {
+            font-size: 35px;
+            margin-top: 30px;
+            padding: 20px 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50px;
+            display: inline-block;
+        }
+
+        .phrase-slide {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+        }
+
+        .phrase-box {
+            background: rgba(255,255,255,0.15);
+            padding: 50px;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .time-slide {
+            background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%);
+            color: white;
+        }
+
+        .time-slide h2 {
+            font-size: 55px;
+            margin-bottom: 30px;
+        }
+
+        .scenario-box {
+            background: rgba(255,255,255,0.15);
+            padding: 40px;
+            border-radius: 20px;
+            font-size: 32px;
+            line-height: 1.8;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .culture-slide {
+            background: linear-gradient(135deg, #f57c00 0%, #e65100 100%);
+            color: white;
+        }
+
+        .culture-slide h2 {
+            font-size: 55px;
+            margin-bottom: 40px;
+        }
+
+        .mission-slide {
+            background: linear-gradient(135deg, #388e3c 0%, #1b5e20 100%);
+            color: white;
+        }
+
+        .mission-slide h2 {
+            font-size: 55px;
+            margin-bottom: 40px;
+        }
+
+        .mission-box {
+            background: rgba(255,255,255,0.15);
+            padding: 40px;
+            border-radius: 20px;
+            font-size: 35px;
+            line-height: 1.8;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .nav-buttons {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            padding: 15px 40px;
+            font-size: 20px;
+            background: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            color: #333;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="slides-container">
+        <!-- Slide 1: Title -->
+        <div class="slide title-slide active">
+            <div class="slide-content">
+                <div style="font-size: 120px; margin-bottom: 30px;">🗼</div>
+                <h1>Week 17</h1>
+                <div class="subtitle">Full Tokyo Day Simulation</div>
+                <div class="week-info">⏰ 4 weeks until Japan!</div>
+                <div style="font-size: 40px; margin-top: 30px; color: #ffeb3b;">
+                    🎬 FULL IMMERSION - MORNING TO NIGHT! 🎬
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Overview -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <h2 style="font-size: 60px; margin-bottom: 40px;">Today's Challenge! 🎯</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 35px; color: #333; line-height: 1.8;">
+                        <strong style="color: #ffeb3b;">NO NEW PHRASES!</strong><br><br>
+                        This is a COMPREHENSIVE REVIEW<br>
+                        We'll go through an entire day in Tokyo<br>
+                        Use EVERYTHING you've learned!<br><br>
+                        <em style="font-size: 30px;">30 minutes of non-stop simulation! 🚀</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: 7:00 AM - Wake Up -->
+        <div class="slide time-slide">
+            <div class="slide-content">
+                <h2>🌅 7:00 AM - Wake Up at Hotel</h2>
+                <div class="scenario-box">
+                    <div style="font-size: 35px; line-height: 1.8;">
+                        <strong style="color: #ffeb3b;">Hotel Staff:</strong> "Ohayou gozaimasu!" (Good morning!)<br><br>
+                        <strong style="color: #ffeb3b;">You say:</strong><br>
+                        • "Ohayou gozaimasu!"<br>
+                        • Ask for breakfast location<br>
+                        • Order: "Kore kudasai"<br>
+                        • "Itadakimasu!" → eat → "Gochisousama!"<br><br>
+                        <em style="font-size: 28px;">Start your day politely! 😊</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: 9:00 AM - Konbini -->
+        <div class="slide time-slide">
+            <div class="slide-content">
+                <h2>🏪 9:00 AM - Konbini Stop</h2>
+                <div class="scenario-box">
+                    <div style="font-size: 35px; line-height: 1.8;">
+                        Quick snack for the train!<br><br>
+                        <strong style="color: #ffeb3b;">You do:</strong><br>
+                        • Pick snacks<br>
+                        • "Kore to kore kudasai"<br>
+                        • "Fukuro wa iranai desu" (eco warrior!)<br>
+                        • Pay with yen<br>
+                        • "Arigatou gozaimasu!"<br><br>
+                        <em style="font-size: 28px;">Be the eco-friendly tourist! 🌱</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: 10:00 AM - Train Station -->
+        <div class="slide time-slide">
+            <div class="slide-content">
+                <h2>🚄 10:00 AM - Train to Harajuku</h2>
+                <div class="scenario-box">
+                    <div style="font-size: 35px; line-height: 1.8;">
+                        Navigate the train system!<br><br>
+                        <strong style="color: #ffeb3b;">You navigate:</strong><br>
+                        • "Sumimasen, eki wa doko?" (Where's the station?)<br>
+                        • Buy ticket<br>
+                        • Emergency: "Toire wa doko?" (bathroom!)<br>
+                        • Train etiquette: Quiet, no phone calls<br><br>
+                        <em style="font-size: 28px;">Be a respectful rider! 🚇</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: 11:00 AM - Harajuku Crepe -->
+        <div class="slide time-slide">
+            <div class="slide-content">
+                <h2>🍰 11:00 AM - Crepe Stand in Harajuku</h2>
+                <div class="scenario-box">
+                    <div style="font-size: 35px; line-height: 1.8;">
+                        Famous Harajuku crepes!<br><br>
+                        <strong style="color: #ffeb3b;">You order:</strong><br>
+                        • Point at crepe: "Kore kudasai"<br>
+                        • "Ikura desu ka?" (How much?)<br>
+                        • Pay<br>
+                        • First bite: "Oishii!" (Delicious!)<br><br>
+                        <em style="font-size: 28px;">Enjoy the sweetness! 😋</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: 12:00 PM - Meet Japanese Kids -->
+        <div class="slide time-slide">
+            <div class="slide-content">
+                <h2>👋 12:00 PM - Meet Japanese Kids at Park</h2>
+                <div class="scenario-box">
+                    <div style="font-size: 35px; line-height: 1.8;">
+                        Make new friends!<br><br>
+                        <strong style="color: #ffeb3b;">You introduce:</strong><br>
+                        • "Hajimemashite!"<br>
+                        • "Watashi wa ___ desu"<br>
+                        • "___ sai desu" (your age)<br>
+                        • "Issho ni asobou!" (Let's play together!)<br>
+                        • Play and have fun! 🎉<br><br>
+                        <em style="font-size: 28px;">Friendships across languages! 🌏</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: 1:00 PM - Lost Scenario -->
+        <div class="slide time-slide">
+            <div class="slide-content">
+                <h2>😰 1:00 PM - Get Lost (OH NO!)</h2>
+                <div class="scenario-box">
+                    <div style="font-size: 35px; line-height: 1.8;">
+                        Separated from parents!<br><br>
+                        <strong style="color: #ffeb3b;">You handle it:</strong><br>
+                        • Stay calm<br>
+                        • "Sumimasen!"<br>
+                        • "Tasukete!" (Help!)<br>
+                        • "Wakarimasen" (I don't understand)<br>
+                        • "Eigo ga dekimasu ka?" (English?)<br>
+                        • Problem solved! ✅<br><br>
+                        <em style="font-size: 28px;">You know what to do! 💪</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: 3:00 PM - Temple Visit -->
+        <div class="slide time-slide">
+            <div class="slide-content">
+                <h2>⛩️ 3:00 PM - Temple Visit</h2>
+                <div class="scenario-box">
+                    <div style="font-size: 35px; line-height: 1.8;">
+                        Cultural experience!<br><br>
+                        <strong style="color: #ffeb3b;">You do:</strong><br>
+                        • Bow at torii gate<br>
+                        • Purification ritual (wash hands)<br>
+                        • Bow, bow, clap, clap, bow<br>
+                        • "Omikuji kudasai" (fortune please)<br>
+                        • Read your fortune!<br><br>
+                        <em style="font-size: 28px;">Respectful tourist! 🙏</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: 5:00 PM - Souvenir Shopping -->
+        <div class="slide time-slide">
+            <div class="slide-content">
+                <h2>🛍️ 5:00 PM - Souvenir Shopping</h2>
+                <div class="scenario-box">
+                    <div style="font-size: 35px; line-height: 1.8;">
+                        Omiyage time!<br><br>
+                        <strong style="color: #ffeb3b;">You shop:</strong><br>
+                        • Budget: ¥2000<br>
+                        • "Kore wa ikura desu ka?"<br>
+                        • "Takai!" or "Yasui!"<br>
+                        • Choose multiple items<br>
+                        • "Kore to kore to kore kudasai"<br>
+                        • Calculate total! 💴<br><br>
+                        <em style="font-size: 28px;">Smart shopper! 🛒</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: 7:00 PM - Return to Hotel -->
+        <div class="slide time-slide">
+            <div class="slide-content">
+                <h2>🏨 7:00 PM - Return to Hotel</h2>
+                <div class="scenario-box">
+                    <div style="font-size: 35px; line-height: 1.8;">
+                        End of a FULL day!<br><br>
+                        <strong style="color: #ffeb3b;">You say:</strong><br>
+                        • "Tadaima!" (I'm home!)<br>
+                        • Evening check-in at front desk<br>
+                        • Reflect on your day<br>
+                        • "Tanoshikatta!" (It was fun!)<br>
+                        • "Tsukareta..." (I'm tired...)<br><br>
+                        <em style="font-size: 28px;">What a day! 😊</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Review - What We Used -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <h2 style="margin-bottom: 30px;">📋 Phrases We Used Today</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 30px; line-height: 1.8; text-align: left;">
+                        ✅ Greetings: Konnichiwa, Ohayou<br>
+                        ✅ Restaurant: Itadakimasu, Gochisousama<br>
+                        ✅ Shopping: Ikura, Kore kudasai<br>
+                        ✅ Emergency: Tasukete, Wakarimasen<br>
+                        ✅ Friends: Hajimemashite, Issho ni asobou<br>
+                        ✅ Temple: Bow ritual, Omikuji<br>
+                        ✅ Feelings: Tanoshii, Tsukareta, Sugoi<br><br>
+                        <strong style="color: #ffeb3b; font-size: 35px;">YOU USED EVERYTHING! 🎉</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: How Did You Do? -->
+        <div class="slide culture-slide">
+            <div class="slide-content">
+                <div style="font-size: 100px; margin-bottom: 30px;">⭐</div>
+                <h2>How Did You Do?</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 38px; line-height: 1.8;">
+                        Think about today's simulation:<br><br>
+                        🌟 What felt easy?<br>
+                        🤔 What was challenging?<br>
+                        💪 What will you practice more?<br>
+                        😊 What are you excited about?<br><br>
+                        <strong style="color: #ffeb3b;">You're almost ready for Japan!</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Timeline Review -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <h2 style="margin-bottom: 30px;">⏰ Your Full Tokyo Day</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 32px; line-height: 1.8; text-align: left;">
+                        7:00 AM → Hotel breakfast 🌅<br>
+                        9:00 AM → Konbini snacks 🏪<br>
+                        10:00 AM → Train to Harajuku 🚄<br>
+                        11:00 AM → Crepe time 🍰<br>
+                        12:00 PM → Make friends 👋<br>
+                        1:00 PM → Problem solving 😰<br>
+                        3:00 PM → Temple visit ⛩️<br>
+                        5:00 PM → Shopping spree 🛍️<br>
+                        7:00 PM → Back to hotel 🏨<br><br>
+                        <strong style="color: #ffeb3b;">A PERFECT DAY IN TOKYO! 🗼</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Mission of the Week -->
+        <div class="slide mission-slide">
+            <div class="slide-content">
+                <h2>🎯 Mission of the Week</h2>
+                <div class="mission-box">
+                    <div style="font-size: 35px; line-height: 1.8;">
+                        <strong>NO NEW MISSION!</strong><br><br>
+                        Just practice EVERYTHING you know!<br>
+                        Review your passport stamps<br>
+                        Count them up!<br><br>
+                        <strong style="color: #ffeb3b;">Get excited for FINAL WEEK!</strong><br>
+                        Next week is GRADUATION! 🎓
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Passport Stamp -->
+        <div class="slide mission-slide">
+            <div class="slide-content">
+                <div style="font-size: 120px; margin-bottom: 30px;">🎫</div>
+                <h2>This Week's Passport Stamp</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 60px; font-weight: bold; color: #ffeb3b;">
+                        🗼 Tokyo Navigator 🗼
+                    </div>
+                    <div style="font-size: 35px; margin-top: 30px;">
+                        You survived a full day in Tokyo!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: Almost There! -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <div style="font-size: 100px; margin-bottom: 30px;">🎊</div>
+                <h2>You're Almost Ready!</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 40px; line-height: 1.8;">
+                        <strong style="color: #ffeb3b;">17 weeks complete!</strong><br>
+                        <strong style="color: #ffeb3b;">17 passport stamps!</strong><br><br>
+                        Only ONE MORE WEEK until graduation!<br><br>
+                        <em style="font-size: 35px;">Then 2 weeks until JAPAN! 🇯🇵</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: Closing -->
+        <div class="slide title-slide">
+            <div class="slide-content">
+                <div style="font-size: 100px; margin-bottom: 30px;">🌸</div>
+                <h1>Otsukaresama!</h1>
+                <div class="subtitle" style="font-size: 35px;">
+                    (Good job! You worked hard!)
+                </div>
+                <div class="phrase-box" style="margin-top: 50px;">
+                    <div style="font-size: 40px; color: #333;">
+                        Today you proved you're READY!<br>
+                        <strong style="color: #ff6b6b;">You can do this! 💪</strong><br><br>
+                        Next week: GRADUATION! 🎓<br><br>
+                        See you next week!<br>
+                        <strong style="color: #ff6b6b;">Mata ne! 👋</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="slide-counter">
+        <span id="currentSlide">1</span> / <span id="totalSlides">18</span>
+    </div>
+    
+    <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+            
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>

@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 10: Help & Emergencies - Japan Trip 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            overflow: hidden;
+        }
+
+        .slides-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        .slide-content {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Title Slide */
+        .title-slide {
+            background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+            color: white;
+        }
+
+        .title-slide h1 {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .title-slide .subtitle {
+            font-size: 45px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .title-slide .week-info {
+            font-size: 35px;
+            margin-top: 30px;
+            padding: 20px 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50px;
+            display: inline-block;
+        }
+
+        /* Phrase Slides */
+        .phrase-slide {
+            background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+            color: white;
+        }
+
+        .phrase-box {
+            background: rgba(255,255,255,0.15);
+            padding: 50px;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .phrase-hiragana {
+            font-size: 70px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .phrase-romaji {
+            font-size: 60px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .phrase-pronunciation {
+            font-size: 35px;
+            margin-bottom: 20px;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .phrase-meaning {
+            font-size: 45px;
+            font-weight: 600;
+            color: #ffeb3b;
+        }
+
+        /* Culture Slide */
+        .culture-slide {
+            background: linear-gradient(135deg, #f57c00 0%, #e65100 100%);
+            color: white;
+        }
+
+        .culture-slide h2 {
+            font-size: 55px;
+            margin-bottom: 40px;
+        }
+
+        .culture-slide ul {
+            text-align: left;
+            font-size: 35px;
+            line-height: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            list-style: none;
+        }
+
+        .culture-slide li {
+            margin-bottom: 20px;
+            padding-left: 50px;
+            position: relative;
+        }
+
+        .culture-slide li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #ffeb3b;
+            font-weight: bold;
+            font-size: 40px;
+        }
+
+        /* Role Play Slide */
+        .roleplay-slide {
+            background: linear-gradient(135deg, #7b1fa2 0%, #4a148c 100%);
+            color: white;
+        }
+
+        .roleplay-slide h2 {
+            font-size: 55px;
+            margin-bottom: 30px;
+        }
+
+        .dialogue {
+            background: rgba(255,255,255,0.15);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: left;
+            max-width: 900px;
+            margin: 0 auto;
+            font-size: 32px;
+            line-height: 2;
+        }
+
+        .dialogue-line {
+            margin-bottom: 25px;
+        }
+
+        .speaker {
+            color: #ffeb3b;
+            font-weight: bold;
+        }
+
+        /* Mission Slide */
+        .mission-slide {
+            background: linear-gradient(135deg, #388e3c 0%, #1b5e20 100%);
+            color: white;
+        }
+
+        .mission-slide h2 {
+            font-size: 55px;
+            margin-bottom: 40px;
+        }
+
+        .mission-box {
+            background: rgba(255,255,255,0.15);
+            padding: 40px;
+            border-radius: 20px;
+            font-size: 35px;
+            line-height: 1.8;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Navigation */
+        .nav-buttons {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            padding: 15px 40px;
+            font-size: 20px;
+            background: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            color: #333;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            z-index: 1000;
+        }
+
+        /* Special Styles */
+        .emergency-examples {
+            background: rgba(255,255,255,0.15);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            font-size: 30px;
+            line-height: 1.8;
+        }
+
+        .scenario-box {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 15px 0;
+            font-size: 28px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="slides-container">
+        <!-- Slide 1: Title -->
+        <div class="slide title-slide active">
+            <div class="slide-content">
+                <div style="font-size: 120px; margin-bottom: 30px;">🆘</div>
+                <h1>Week 10</h1>
+                <div class="subtitle">Help & Emergencies</div>
+                <div class="week-info">⏰ 11 weeks until Japan!</div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Warm-Up -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <h2 style="font-size: 60px; margin-bottom: 40px;">🎢 Quick Review! ✨</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 35px; color: #333; line-height: 1.8;">
+                        Let's practice previous weeks:<br><br>
+                        <strong style="color: #ffeb3b;">Narabitai desu!</strong> (I want to line up!)<br>
+                        <strong style="color: #ffeb3b;">Shashin onegaishimasu!</strong> (Photo please!)<br>
+                        <strong style="color: #ffeb3b;">Daijoubu desu!</strong> (I'm okay!)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Learning Goal -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <h2>Today's Goal</h2>
+                <div class="phrase-box">
+                    <div class="phrase-meaning" style="font-size: 40px; line-height: 1.6;">
+                        Know what to say when you need<br>
+                        <strong style="color: #ffeb3b;">HELP in Japan!</strong><br><br>
+                        <em style="font-size: 30px;">These phrases are your POWER! 💪</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Phrase 1 - Tasukete -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <div class="phrase-box">
+                    <div class="phrase-hiragana">たすけて！</div>
+                    <div class="phrase-romaji">Tasukete!</div>
+                    <div class="phrase-pronunciation">(tah-soo-keh-teh)</div>
+                    <div class="phrase-meaning">Help!</div>
+                </div>
+                <div style="font-size: 80px; margin-top: 40px; color: white;">🆘</div>
+            </div>
+        </div>
+
+        <!-- Slide 5: When to Use Tasukete -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <h2 style="margin-bottom: 30px;">When to say "Tasukete!" 🆘</h2>
+                <div class="emergency-examples">
+                    <div class="scenario-box">
+                        ✅ Lost and can't find your family
+                    </div>
+                    <div class="scenario-box">
+                        ✅ Someone is hurt
+                    </div>
+                    <div class="scenario-box">
+                        ✅ Real emergency only!
+                    </div>
+                    <div style="margin-top: 30px; font-size: 32px; color: #ffeb3b;">
+                        ⚠️ This is for SERIOUS help only!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Phrase 2 - Wakarimasen -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <div class="phrase-box">
+                    <div class="phrase-hiragana">わかりません</div>
+                    <div class="phrase-romaji">Wakarimasen</div>
+                    <div class="phrase-pronunciation">(wah-kah-ree-mah-sen)</div>
+                    <div class="phrase-meaning">I don't understand</div>
+                </div>
+                <div style="font-size: 80px; margin-top: 40px; color: white;">❓</div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Important About Wakarimasen -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <h2 style="margin-bottom: 30px;">Say "Wakarimasen" Confidently! 💪</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 35px; line-height: 1.8;">
+                        <strong style="color: #ffeb3b;">NOT embarrassing!</strong><br><br>
+                        Say it with a smile 😊<br>
+                        Polite and respectful<br>
+                        Even adults use this in Japan!<br><br>
+                        <em style="font-size: 28px;">It's okay not to understand everything!</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Phrase 3 - Yukkuri onegaishimasu -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <div class="phrase-box">
+                    <div class="phrase-hiragana">ゆっくりおねがいします</div>
+                    <div class="phrase-romaji">Yukkuri onegaishimasu</div>
+                    <div class="phrase-pronunciation">(yoo-koo-ree oh-neh-guy-shee-mas)</div>
+                    <div class="phrase-meaning">Slowly please</div>
+                </div>
+                <div style="font-size: 80px; margin-top: 40px; color: white;">🐢</div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Phrase 4 - Mou ichido -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <div class="phrase-box">
+                    <div class="phrase-hiragana">もういちど</div>
+                    <div class="phrase-romaji">Mou ichido</div>
+                    <div class="phrase-pronunciation">(moh ee-chee-doh)</div>
+                    <div class="phrase-meaning">One more time</div>
+                </div>
+                <div style="font-size: 80px; margin-top: 40px; color: white;">🔄</div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Phrase 5 - Eigo ga dekimasu ka? -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <div class="phrase-box">
+                    <div class="phrase-hiragana">えいごができますか？</div>
+                    <div class="phrase-romaji">Eigo ga dekimasu ka?</div>
+                    <div class="phrase-pronunciation">(eh-go gah deh-kee-mas kah)</div>
+                    <div class="phrase-meaning">Can you speak English?</div>
+                </div>
+                <div style="font-size: 80px; margin-top: 40px; color: white;">🗣️</div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Role Play Setup -->
+        <div class="slide roleplay-slide">
+            <div class="slide-content">
+                <h2>🎭 Role Play: Lost Tourist Scenario</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 35px; line-height: 1.8;">
+                        <strong style="color: #ffeb3b;">Scenario:</strong><br>
+                        Teacher speaks rapid Japanese.<br>
+                        You need to stop them and ask for help!<br><br>
+                        <strong style="color: #ffeb3b;">Goal:</strong><br>
+                        Use all 5 emergency phrases!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Role Play Script -->
+        <div class="slide roleplay-slide">
+            <div class="slide-content">
+                <h2>🎬 The Dialogue</h2>
+                <div class="dialogue">
+                    <div class="dialogue-line">
+                        <span class="speaker">Teacher:</span> *speaks rapid Japanese*
+                    </div>
+                    <div class="dialogue-line">
+                        <span class="speaker">You:</span> Sumimasen! Wakarimasen!
+                    </div>
+                    <div class="dialogue-line">
+                        <span class="speaker">Teacher:</span> *keeps going fast*
+                    </div>
+                    <div class="dialogue-line">
+                        <span class="speaker">You:</span> Yukkuri onegaishimasu!
+                    </div>
+                    <div class="dialogue-line">
+                        <span class="speaker">Teacher:</span> *slower, still Japanese*
+                    </div>
+                    <div class="dialogue-line">
+                        <span class="speaker">You:</span> Mou ichido!
+                    </div>
+                    <div class="dialogue-line">
+                        <span class="speaker">Teacher:</span> *repeats*
+                    </div>
+                    <div class="dialogue-line">
+                        <span class="speaker">You:</span> Eigo ga dekimasu ka?
+                    </div>
+                    <div class="dialogue-line">
+                        <span class="speaker">Teacher:</span> Yes! How can I help?
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Culture Bite -->
+        <div class="slide culture-slide">
+            <div class="slide-content">
+                <h2>🇯🇵 Culture Bite: Help in Japan</h2>
+                <ul>
+                    <li>Japanese people LOVE helping tourists!</li>
+                    <li>Don't be shy - asking for help is polite, not rude</li>
+                    <li>Many young Japanese study English and want to practice</li>
+                    <li>Police boxes (koban) are everywhere - safe helpers! 👮</li>
+                    <li>Train station staff are SUPER helpful</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 14: Fun Fact -->
+        <div class="slide culture-slide">
+            <div class="slide-content">
+                <div style="font-size: 100px; margin-bottom: 30px;">🏘️</div>
+                <h2>Did You Know?</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 38px; line-height: 1.8;">
+                        <strong style="color: #ffeb3b;">Koban (Police Boxes)</strong><br><br>
+                        Small police stations on almost every corner!<br>
+                        Officers help with directions<br>
+                        Lost & found items<br>
+                        They're your friends! 👮
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Mission of the Week -->
+        <div class="slide mission-slide">
+            <div class="slide-content">
+                <h2>🎯 Mission of the Week</h2>
+                <div class="mission-box">
+                    <div style="font-size: 35px; line-height: 1.8;">
+                        <strong>Practice saying "Wakarimasen" confidently!</strong><br><br>
+                        This week, if you don't understand something<br>
+                        (even in English), use these phrases in Japanese<br><br>
+                        <strong style="color: #ffeb3b;">BONUS CHALLENGE:</strong><br>
+                        Video yourself saying all 5 phrases<br>
+                        Send to WhatsApp! 📱
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Passport Stamp -->
+        <div class="slide mission-slide">
+            <div class="slide-content">
+                <div style="font-size: 120px; margin-bottom: 30px;">🎫</div>
+                <h2>This Week's Passport Stamp</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 60px; font-weight: bold; color: #ffeb3b;">
+                        🆘 Brave Traveler 🆘
+                    </div>
+                    <div style="font-size: 35px; margin-top: 30px;">
+                        You know how to ask for help in Japan!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: Closing -->
+        <div class="slide title-slide">
+            <div class="slide-content">
+                <div style="font-size: 100px; margin-bottom: 30px;">🌸</div>
+                <h1>Otsukaresama!</h1>
+                <div class="subtitle" style="font-size: 35px;">
+                    (Good job! You worked hard!)
+                </div>
+                <div class="phrase-box" style="margin-top: 50px;">
+                    <div style="font-size: 40px; color: #333;">
+                        Remember: These phrases are your POWER!<br>
+                        <strong style="color: #d32f2f;">Don't be shy - use them! 💪</strong><br><br>
+                        See you next week!<br>
+                        <strong style="color: #d32f2f;">Mata ne! 👋</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="slide-counter">
+        <span id="currentSlide">1</span> / <span id="totalSlides">17</span>
+    </div>
+    
+    <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+            
+            // Update button states
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>

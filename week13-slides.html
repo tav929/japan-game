@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 13: Family Introductions - Japan Trip 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            overflow: hidden;
+        }
+
+        .slides-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        .slide-content {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .title-slide {
+            background: linear-gradient(135deg, #0288d1 0%, #01579b 100%);
+            color: white;
+        }
+
+        .title-slide h1 {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .title-slide .subtitle {
+            font-size: 45px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .title-slide .week-info {
+            font-size: 35px;
+            margin-top: 30px;
+            padding: 20px 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50px;
+            display: inline-block;
+        }
+
+        .phrase-slide {
+            background: linear-gradient(135deg, #0288d1 0%, #01579b 100%);
+            color: white;
+        }
+
+        .phrase-box {
+            background: rgba(255,255,255,0.15);
+            padding: 50px;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .phrase-hiragana {
+            font-size: 70px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .phrase-romaji {
+            font-size: 60px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .phrase-pronunciation {
+            font-size: 35px;
+            margin-bottom: 20px;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .phrase-meaning {
+            font-size: 45px;
+            font-weight: 600;
+            color: #ffeb3b;
+        }
+
+        .culture-slide {
+            background: linear-gradient(135deg, #f57c00 0%, #e65100 100%);
+            color: white;
+        }
+
+        .culture-slide h2 {
+            font-size: 55px;
+            margin-bottom: 40px;
+        }
+
+        .culture-slide ul {
+            text-align: left;
+            font-size: 35px;
+            line-height: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            list-style: none;
+        }
+
+        .culture-slide li {
+            margin-bottom: 20px;
+            padding-left: 50px;
+            position: relative;
+        }
+
+        .culture-slide li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #ffeb3b;
+            font-weight: bold;
+            font-size: 40px;
+        }
+
+        .roleplay-slide {
+            background: linear-gradient(135deg, #7b1fa2 0%, #4a148c 100%);
+            color: white;
+        }
+
+        .roleplay-slide h2 {
+            font-size: 55px;
+            margin-bottom: 30px;
+        }
+
+        .dialogue {
+            background: rgba(255,255,255,0.15);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: left;
+            max-width: 900px;
+            margin: 0 auto;
+            font-size: 32px;
+            line-height: 2;
+        }
+
+        .dialogue-line {
+            margin-bottom: 25px;
+        }
+
+        .speaker {
+            color: #ffeb3b;
+            font-weight: bold;
+        }
+
+        .mission-slide {
+            background: linear-gradient(135deg, #388e3c 0%, #1b5e20 100%);
+            color: white;
+        }
+
+        .mission-slide h2 {
+            font-size: 55px;
+            margin-bottom: 40px;
+        }
+
+        .mission-box {
+            background: rgba(255,255,255,0.15);
+            padding: 40px;
+            border-radius: 20px;
+            font-size: 35px;
+            line-height: 1.8;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .nav-buttons {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            padding: 15px 40px;
+            font-size: 20px;
+            background: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            color: #333;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            z-index: 1000;
+        }
+
+        .family-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .family-box {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 15px;
+            font-size: 32px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slides-container">
+        <!-- Slide 1: Title -->
+        <div class="slide title-slide active">
+            <div class="slide-content">
+                <div style="font-size: 120px; margin-bottom: 30px;">👨‍👩‍👧‍👦</div>
+                <h1>Week 13</h1>
+                <div class="subtitle">Family Introductions</div>
+                <div class="week-info">⏰ 8 weeks until Japan!</div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Warm-Up -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <h2 style="font-size: 60px; margin-bottom: 40px;">🎢 Quick Review! ✨</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 35px; color: #333; line-height: 1.8;">
+                        Let's count together to warm up!<br><br>
+                        <strong style="color: #ffeb3b;">Ichi, ni, san, yon, go!</strong><br>
+                        <strong style="color: #ffeb3b;">Roku, nana, hachi, kyuu, juu!</strong><br><br>
+                        Energy check: <strong style="color: #ffeb3b;">Kazoku wa genki?</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Learning Goal -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <h2>Today's Goal</h2>
+                <div class="phrase-box">
+                    <div class="phrase-meaning" style="font-size: 40px; line-height: 1.6;">
+                        Talk about your family and<br>
+                        <strong style="color: #ffeb3b;">introduce everyone in Japanese!</strong><br><br>
+                        <em style="font-size: 30px;">Japanese people LOVE hearing about families! 👨‍👩‍👧‍👦</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Phrase 1 - Kazoku -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <div class="phrase-box">
+                    <div class="phrase-hiragana">かぞく</div>
+                    <div class="phrase-romaji">Kazoku</div>
+                    <div class="phrase-pronunciation">(kah-zoh-koo)</div>
+                    <div class="phrase-meaning">Family</div>
+                </div>
+                <div style="font-size: 80px; margin-top: 40px; color: white;">👨‍👩‍👧‍👦</div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Phrase 2 - Kore wa watashi no -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <div class="phrase-box">
+                    <div class="phrase-hiragana">これはわたしの___です</div>
+                    <div class="phrase-romaji">Kore wa watashi no ___ desu</div>
+                    <div class="phrase-pronunciation">(koh-reh wah wah-tah-shee no ___ des)</div>
+                    <div class="phrase-meaning">This is my ___</div>
+                </div>
+                <div style="font-size: 60px; margin-top: 40px; color: white;">
+                    👉 Fill in with family words!
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Phrase 3 - Otousan -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <div class="phrase-box">
+                    <div class="phrase-hiragana">おとうさん</div>
+                    <div class="phrase-romaji">Otousan</div>
+                    <div class="phrase-pronunciation">(oh-toh-san)</div>
+                    <div class="phrase-meaning">Dad / Father</div>
+                </div>
+                <div style="font-size: 80px; margin-top: 40px; color: white;">👨</div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Phrase 4 - Okaasan -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <div class="phrase-box">
+                    <div class="phrase-hiragana">おかあさん</div>
+                    <div class="phrase-romaji">Okaasan</div>
+                    <div class="phrase-pronunciation">(oh-kah-san)</div>
+                    <div class="phrase-meaning">Mom / Mother</div>
+                </div>
+                <div style="font-size: 80px; margin-top: 40px; color: white;">👩</div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Older Siblings -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <h2 style="margin-bottom: 30px;">Older Siblings 👦👧</h2>
+                <div class="family-grid">
+                    <div class="family-box">
+                        <div class="phrase-hiragana">おにいさん</div>
+                        <div class="phrase-romaji">Oniisan</div>
+                        <div style="font-size: 28px; margin-top: 10px;">(oh-nee-san)</div>
+                        <div style="font-size: 40px; color: #ffeb3b; margin-top: 15px;">👦 Older Brother</div>
+                    </div>
+                    <div class="family-box">
+                        <div class="phrase-hiragana">おねえさん</div>
+                        <div class="phrase-romaji">Oneesan</div>
+                        <div style="font-size: 28px; margin-top: 10px;">(oh-neh-san)</div>
+                        <div style="font-size: 40px; color: #ffeb3b; margin-top: 15px;">👧 Older Sister</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Younger Siblings -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <h2 style="margin-bottom: 30px;">Younger Siblings 👶</h2>
+                <div class="family-grid">
+                    <div class="family-box">
+                        <div class="phrase-hiragana">おとうと</div>
+                        <div class="phrase-romaji">Otouto</div>
+                        <div style="font-size: 28px; margin-top: 10px;">(oh-toh-toh)</div>
+                        <div style="font-size: 40px; color: #ffeb3b; margin-top: 15px;">👦 Younger Brother</div>
+                    </div>
+                    <div class="family-box">
+                        <div class="phrase-hiragana">いもうと</div>
+                        <div class="phrase-romaji">Imouto</div>
+                        <div style="font-size: 28px; margin-top: 10px;">(ee-moh-toh)</div>
+                        <div style="font-size: 40px; color: #ffeb3b; margin-top: 15px;">👧 Younger Sister</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Practice Combining -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <h2 style="margin-bottom: 30px;">Let's Practice! 🎯</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 35px; line-height: 1.8;">
+                        <strong style="color: #ffeb3b;">Kore wa watashi no otousan desu</strong><br>
+                        (This is my dad)<br><br>
+                        <strong style="color: #ffeb3b;">Kore wa watashi no okaasan desu</strong><br>
+                        (This is my mom)<br><br>
+                        <strong style="color: #ffeb3b;">Kore wa watashi no oniisan desu</strong><br>
+                        (This is my older brother)<br><br>
+                        <em style="font-size: 28px;">Point to your family while saying it!</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Your Turn -->
+        <div class="slide phrase-slide">
+            <div class="slide-content">
+                <h2 style="margin-bottom: 30px;">Your Turn to Practice! 💪</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 40px; line-height: 1.8;">
+                        Think about YOUR family:<br><br>
+                        Who will you introduce?<br>
+                        What are their names?<br>
+                        How old are they?<br><br>
+                        <strong style="color: #ffeb3b;">Practice saying it out loud!</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Role Play Setup -->
+        <div class="slide roleplay-slide">
+            <div class="slide-content">
+                <h2>🎭 Role Play: Meeting Japanese Family</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 35px; line-height: 1.8;">
+                        <strong style="color: #ffeb3b;">Scenario:</strong><br>
+                        You're at your Tokyo hotel resort<br>
+                        A Japanese family asks about YOUR family!<br><br>
+                        <strong style="color: #ffeb3b;">Goal:</strong><br>
+                        Introduce everyone using Japanese! 👨‍👩‍👧‍👦
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Role Play Dialogue -->
+        <div class="slide roleplay-slide">
+            <div class="slide-content">
+                <h2>🎬 The Dialogue</h2>
+                <div class="dialogue">
+                    <div class="dialogue-line">
+                        <span class="speaker">Japanese person:</span> Kazoku desu ka? (Is this your family?)
+                    </div>
+                    <div class="dialogue-line">
+                        <span class="speaker">You:</span> Hai! Kore wa watashi no otousan desu
+                    </div>
+                    <div class="dialogue-line">
+                        <span class="speaker">You:</span> Kore wa watashi no okaasan desu
+                    </div>
+                    <div class="dialogue-line">
+                        <span class="speaker">You:</span> Kore wa watashi no oniisan desu
+                    </div>
+                    <div class="dialogue-line">
+                        <span class="speaker">Japanese person:</span> Suteki na kazoku desu ne! (What a nice family!)
+                    </div>
+                    <div class="dialogue-line">
+                        <span class="speaker">You:</span> Arigatou gozaimasu!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Culture Bite -->
+        <div class="slide culture-slide">
+            <div class="slide-content">
+                <h2>🇯🇵 Family in Japanese Culture</h2>
+                <ul>
+                    <li>Family is SUPER important in Japan!</li>
+                    <li>The "o" prefix (otousan, okaasan) shows respect</li>
+                    <li>Different words for YOUR family vs someone else's family</li>
+                    <li>Multi-generational travel is very common</li>
+                    <li>Japanese people love asking about families!</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 15: Fun Fact -->
+        <div class="slide culture-slide">
+            <div class="slide-content">
+                <div style="font-size: 100px; margin-bottom: 30px;">👨‍👩‍👧‍👦</div>
+                <h2>Did You Know?</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 38px; line-height: 1.8;">
+                        <strong style="color: #ffeb3b;">Three Generations!</strong><br><br>
+                        It's very common to see grandparents,<br>
+                        parents, and grandchildren<br>
+                        all traveling together in Japan!<br><br>
+                        Family bonds are super strong! ❤️
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Mission of the Week -->
+        <div class="slide mission-slide">
+            <div class="slide-content">
+                <h2>🎯 Mission of the Week</h2>
+                <div class="mission-box">
+                    <div style="font-size: 35px; line-height: 1.8;">
+                        <strong>Introduce your entire family to someone!</strong><br>
+                        (Grandparents, neighbors, friends - in Japanese!)<br><br>
+                        Take a family photo and label everyone in romaji<br><br>
+                        <strong style="color: #ffeb3b;">BONUS CHALLENGE:</strong><br>
+                        Video your family introductions<br>
+                        Send to WhatsApp! 📱
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: Passport Stamp -->
+        <div class="slide mission-slide">
+            <div class="slide-content">
+                <div style="font-size: 120px; margin-bottom: 30px;">🎫</div>
+                <h2>This Week's Passport Stamp</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 60px; font-weight: bold; color: #ffeb3b;">
+                        👨‍👩‍👧‍👦 Family Ambassador 👨‍👩‍👧‍👦
+                    </div>
+                    <div style="font-size: 35px; margin-top: 30px;">
+                        You can introduce your family in Japanese!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: Closing -->
+        <div class="slide title-slide">
+            <div class="slide-content">
+                <div style="font-size: 100px; margin-bottom: 30px;">🌸</div>
+                <h1>Otsukaresama!</h1>
+                <div class="subtitle" style="font-size: 35px;">
+                    (Good job! You worked hard!)
+                </div>
+                <div class="phrase-box" style="margin-top: 50px;">
+                    <div style="font-size: 40px; color: #333;">
+                        Practice introducing your family!<br>
+                        <strong style="color: #0288d1;">Kore wa watashi no kazoku desu! 👨‍👩‍👧‍👦</strong><br><br>
+                        See you next week!<br>
+                        <strong style="color: #0288d1;">Mata ne! 👋</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="slide-counter">
+        <span id="currentSlide">1</span> / <span id="totalSlides">18</span>
+    </div>
+    
+    <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+            
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>
