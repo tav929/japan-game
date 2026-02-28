@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Day: Weeks 1-6 - Japan Trip 2026</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Nunito', 'Segoe UI', sans-serif;
+            background: #1a1a1a;
+            overflow: hidden;
+        }
+
+        .slides-container { width: 100vw; height: 100vh; position: relative; }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+            padding-bottom: 100px;
+        }
+        .slide.active { display: flex; }
+
+        .slide-content {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* ===== SLIDE TYPES ===== */
+
+        /* Title */
+        .title-slide {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 50%, #f9ca24 100%);
+            color: white;
+        }
+        .title-slide h1 {
+            font-size: 80px;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            font-weight: 900;
+        }
+        .title-slide .subtitle {
+            font-size: 42px;
+            margin-bottom: 30px;
+            opacity: 0.95;
+            font-weight: 700;
+        }
+        .title-slide .week-info {
+            font-size: 32px;
+            margin-top: 20px;
+            padding: 20px 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50px;
+            display: inline-block;
+        }
+
+        /* Review header slides */
+        .review-header {
+            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            color: white;
+        }
+        .review-header h1 {
+            font-size: 65px;
+            margin-bottom: 20px;
+            font-weight: 900;
+        }
+        .review-header .subtitle {
+            font-size: 36px;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+
+        /* Phrase review */
+        .phrase-slide {
+            color: white;
+        }
+        .phrase-box {
+            background: rgba(255,255,255,0.15);
+            padding: 45px;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .phrase-hiragana { font-size: 65px; margin-bottom: 12px; font-weight: 800; }
+        .phrase-romaji { font-size: 55px; margin-bottom: 8px; font-weight: 700; }
+        .phrase-pronunciation { font-size: 30px; margin-bottom: 18px; opacity: 0.85; font-style: italic; }
+        .phrase-meaning { font-size: 42px; font-weight: 700; color: #ffeb3b; }
+
+        /* Quiz slides */
+        .quiz-slide {
+            color: white;
+        }
+        .quiz-question {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            line-height: 1.4;
+        }
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .quiz-option {
+            background: rgba(255,255,255,0.15);
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 20px;
+            padding: 25px 30px;
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            user-select: none;
+        }
+        .quiz-option:hover {
+            background: rgba(255,255,255,0.25);
+            transform: scale(1.03);
+        }
+        .quiz-option.correct {
+            background: rgba(76, 175, 80, 0.7) !important;
+            border-color: #4CAF50 !important;
+            transform: scale(1.05);
+        }
+        .quiz-option.wrong {
+            background: rgba(244, 67, 54, 0.5) !important;
+            border-color: #f44336 !important;
+            opacity: 0.7;
+        }
+        .quiz-option.disabled { pointer-events: none; }
+        .quiz-feedback {
+            margin-top: 30px;
+            font-size: 36px;
+            font-weight: 800;
+            min-height: 50px;
+        }
+
+        /* Scenario slides */
+        .scenario-slide {
+            color: white;
+        }
+        .scenario-box {
+            background: rgba(0,0,0,0.3);
+            border-radius: 25px;
+            padding: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        .scenario-title {
+            font-size: 38px;
+            font-weight: 800;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .scenario-line {
+            font-size: 30px;
+            line-height: 1.8;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .scenario-line .speaker {
+            color: #ffeb3b;
+            font-weight: 800;
+        }
+        .scenario-blank {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 25px;
+            border-radius: 10px;
+            border-bottom: 3px dashed #ffeb3b;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            min-width: 150px;
+            text-align: center;
+        }
+        .scenario-blank.revealed {
+            background: rgba(76, 175, 80, 0.5);
+            border-bottom-color: #4CAF50;
+            color: #fff;
+        }
+
+        /* Challenge slides */
+        .challenge-slide {
+            background: linear-gradient(135deg, #e17055 0%, #d63031 100%);
+            color: white;
+        }
+        .challenge-slide h2 {
+            font-size: 55px;
+            margin-bottom: 30px;
+            font-weight: 900;
+        }
+
+        /* Celebration */
+        .celebration-slide {
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            color: white;
+        }
+        .celebration-slide h1 {
+            font-size: 70px;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+
+        /* Mission */
+        .mission-slide {
+            background: linear-gradient(135deg, #388e3c 0%, #1b5e20 100%);
+            color: white;
+        }
+        .mission-slide h2 {
+            font-size: 55px;
+            margin-bottom: 35px;
+            font-weight: 900;
+        }
+        .mission-box {
+            background: rgba(255,255,255,0.15);
+            padding: 40px;
+            border-radius: 20px;
+            font-size: 32px;
+            line-height: 1.9;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Score tracker */
+        .score-bar {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 22px;
+            font-weight: 700;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Navigation */
+        .nav-buttons {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+        .nav-btn {
+            padding: 15px 40px;
+            font-size: 20px;
+            font-weight: 800;
+            background: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #333;
+            font-family: 'Nunito', sans-serif;
+        }
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+        .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 22px;
+            font-weight: 800;
+            color: #333;
+            z-index: 1000;
+        }
+
+        /* Week color themes */
+        .week1-bg { background: linear-gradient(135deg, #0984e3 0%, #6c5ce7 100%); }
+        .week2-bg { background: linear-gradient(135deg, #00b894 0%, #00cec9 100%); }
+        .week3-bg { background: linear-gradient(135deg, #e17055 0%, #fdcb6e 100%); }
+        .week4-bg { background: linear-gradient(135deg, #ff6f00 0%, #e65100 100%); }
+        .week5-bg { background: linear-gradient(135deg, #d63031 0%, #e17055 100%); }
+        .week6-bg { background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%); }
+
+        /* Confetti canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .slide { padding: 30px; padding-bottom: 90px; }
+            .title-slide h1 { font-size: 50px; }
+            .title-slide .subtitle { font-size: 28px; }
+            .phrase-hiragana { font-size: 45px; }
+            .phrase-romaji { font-size: 38px; }
+            .phrase-meaning { font-size: 30px; }
+            .quiz-question { font-size: 28px; }
+            .quiz-options { grid-template-columns: 1fr; }
+            .quiz-option { font-size: 24px; padding: 18px 20px; }
+            .scenario-line { font-size: 22px; }
+            .review-header h1 { font-size: 42px; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="score-bar">⭐ Score: <span id="score">0</span></div>
+
+    <div class="slides-container">
+
+        <!-- ========== SLIDE 1: TITLE ========== -->
+        <div class="slide title-slide active">
+            <div class="slide-content">
+                <div style="font-size: 100px; margin-bottom: 20px;">🎌🧠💪</div>
+                <h1>Review Day!</h1>
+                <div class="subtitle">Weeks 1–6 Challenge</div>
+                <div class="week-info">How much do you remember? Let's find out!</div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 2: THE PLAN ========== -->
+        <div class="slide review-header">
+            <div class="slide-content">
+                <div style="font-size: 80px; margin-bottom: 25px;">🗺️</div>
+                <h1>Today's Adventure</h1>
+                <div class="phrase-box" style="text-align: left; font-size: 30px; line-height: 2.2;">
+                    <div>✈️ <strong>Week 1:</strong> Landing in Japan</div>
+                    <div>🏨 <strong>Week 2:</strong> Hotel Check-In</div>
+                    <div>👋 <strong>Week 3:</strong> Making Friends</div>
+                    <div>🍱 <strong>Week 4:</strong> Restaurant Manners</div>
+                    <div>🍜 <strong>Week 5:</strong> Ramen Shop</div>
+                    <div>🏪 <strong>Week 6:</strong> Convenience Store</div>
+                    <div style="margin-top: 15px; text-align: center; color: #ffeb3b;">🏆 Answer questions to earn ⭐ points!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 3: WEEK 1 HEADER ========== -->
+        <div class="slide review-header week1-bg">
+            <div class="slide-content">
+                <div style="font-size: 120px; margin-bottom: 20px;">✈️</div>
+                <h1>Week 1: Landing in Japan</h1>
+                <div class="subtitle">Basic Greetings</div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 4: WEEK 1 QUIZ ========== -->
+        <div class="slide quiz-slide week1-bg">
+            <div class="slide-content">
+                <div class="quiz-question">👋 How do you say "Hello" in Japanese?</div>
+                <div class="quiz-options" data-correct="0">
+                    <div class="quiz-option" onclick="checkAnswer(this, 0)">Konnichiwa</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1)">Sayounara</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2)">Sumimasen</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 3)">Arigatou</div>
+                </div>
+                <div class="quiz-feedback" id="feedback-1"></div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 5: WEEK 1 QUIZ 2 ========== -->
+        <div class="slide quiz-slide week1-bg">
+            <div class="slide-content">
+                <div class="quiz-question">🙏 You want to say "Thank you" — which phrase?</div>
+                <div class="quiz-options" data-correct="2">
+                    <div class="quiz-option" onclick="checkAnswer(this, 0)">Hajimemashite</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1)">Sayounara</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2)">Arigatou</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 3)">Genki?</div>
+                </div>
+                <div class="quiz-feedback" id="feedback-2"></div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 6: WEEK 1 QUIZ 3 ========== -->
+        <div class="slide quiz-slide week1-bg">
+            <div class="slide-content">
+                <div class="quiz-question">🤝 You're meeting someone for the first time. What do you say?</div>
+                <div class="quiz-options" data-correct="1">
+                    <div class="quiz-option" onclick="checkAnswer(this, 0)">Sayounara</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1)">Hajimemashite</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2)">Itadakimasu</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 3)">Oishii!</div>
+                </div>
+                <div class="quiz-feedback" id="feedback-3"></div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 7: WEEK 2 HEADER ========== -->
+        <div class="slide review-header week2-bg">
+            <div class="slide-content">
+                <div style="font-size: 120px; margin-bottom: 20px;">🏨</div>
+                <h1>Week 2: Hotel Check-In</h1>
+                <div class="subtitle">Expressing Feelings</div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 8: WEEK 2 QUIZ ========== -->
+        <div class="slide quiz-slide week2-bg">
+            <div class="slide-content">
+                <div class="quiz-question">😊 Someone asks "O-genki desu ka?" — What are they asking?</div>
+                <div class="quiz-options" data-correct="1">
+                    <div class="quiz-option" onclick="checkAnswer(this, 0)">What's your name?</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1)">How are you?</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2)">Where are you going?</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 3)">Are you hungry?</div>
+                </div>
+                <div class="quiz-feedback" id="feedback-4"></div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 9: WEEK 2 QUIZ 2 ========== -->
+        <div class="slide quiz-slide week2-bg">
+            <div class="slide-content">
+                <div class="quiz-question">😐 You're feeling so-so, not great, not bad. Which word?</div>
+                <div class="quiz-options" data-correct="2">
+                    <div class="quiz-option" onclick="checkAnswer(this, 0)">Genki desu!</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1)">Arigatou</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2)">Maa maa</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 3)">Oishii!</div>
+                </div>
+                <div class="quiz-feedback" id="feedback-5"></div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 10: WEEK 2 QUIZ 3 ========== -->
+        <div class="slide quiz-slide week2-bg">
+            <div class="slide-content">
+                <div class="quiz-question">🙇 You accidentally bump into someone. What do you say?</div>
+                <div class="quiz-options" data-correct="0">
+                    <div class="quiz-option" onclick="checkAnswer(this, 0)">Sumimasen</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1)">Konnichiwa</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2)">Sayounara</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 3)">Genki?</div>
+                </div>
+                <div class="quiz-feedback" id="feedback-6"></div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 11: WEEK 3 HEADER ========== -->
+        <div class="slide review-header week3-bg">
+            <div class="slide-content">
+                <div style="font-size: 120px; margin-bottom: 20px;">👋</div>
+                <h1>Week 3: Making Friends</h1>
+                <div class="subtitle">Introductions</div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 12: WEEK 3 QUIZ ========== -->
+        <div class="slide quiz-slide week3-bg">
+            <div class="slide-content">
+                <div class="quiz-question">👤 How do you say "I am (your name)"?</div>
+                <div class="quiz-options" data-correct="0">
+                    <div class="quiz-option" onclick="checkAnswer(this, 0)">Watashi wa ___ desu</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1)">Onamae wa?</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2)">___ sai desu</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 3)">Issho ni asobou!</div>
+                </div>
+                <div class="quiz-feedback" id="feedback-7"></div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 13: WEEK 3 QUIZ 2 ========== -->
+        <div class="slide quiz-slide week3-bg">
+            <div class="slide-content">
+                <div class="quiz-question">🎮 A Japanese kid is at the playground. You want to play! What do you say?</div>
+                <div class="quiz-options" data-correct="3">
+                    <div class="quiz-option" onclick="checkAnswer(this, 0)">Arigatou gozaimasu!</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1)">Onamae wa?</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2)">Sumimasen!</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 3)">Issho ni asobou!</div>
+                </div>
+                <div class="quiz-feedback" id="feedback-8"></div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 14: WEEK 3 SPEAK CHALLENGE ========== -->
+        <div class="slide challenge-slide">
+            <div class="slide-content">
+                <h2>🎤 Speaking Challenge!</h2>
+                <div class="phrase-box" style="font-size: 30px; line-height: 2;">
+                    <div style="font-size: 42px; font-weight: 800; margin-bottom: 20px;">Introduce yourself in Japanese!</div>
+                    <div style="text-align: left; max-width: 700px; margin: 0 auto;">
+                        <div>1️⃣ Say hello</div>
+                        <div>2️⃣ Say your name</div>
+                        <div>3️⃣ Say your age</div>
+                        <div>4️⃣ Ask: "What's your name?"</div>
+                    </div>
+                    <div style="margin-top: 25px; color: #ffeb3b; font-size: 28px;">
+                        Everyone takes a turn! 🌟
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 15: WEEK 4 HEADER ========== -->
+        <div class="slide review-header week4-bg">
+            <div class="slide-content">
+                <div style="font-size: 120px; margin-bottom: 20px;">🍱</div>
+                <h1>Week 4: Restaurant Manners</h1>
+                <div class="subtitle">Polite Eating Phrases</div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 16: WEEK 4 QUIZ ========== -->
+        <div class="slide quiz-slide week4-bg">
+            <div class="slide-content">
+                <div class="quiz-question">🍽️ Your food arrives! What do you say BEFORE eating?</div>
+                <div class="quiz-options" data-correct="1">
+                    <div class="quiz-option" onclick="checkAnswer(this, 0)">Gochisousama!</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1)">Itadakimasu!</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2)">Oishii!</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 3)">Kore kudasai!</div>
+                </div>
+                <div class="quiz-feedback" id="feedback-9"></div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 17: WEEK 4 QUIZ 2 ========== -->
+        <div class="slide quiz-slide week4-bg">
+            <div class="slide-content">
+                <div class="quiz-question">✅ You finished your meal. What do you say to thank the chef?</div>
+                <div class="quiz-options" data-correct="0">
+                    <div class="quiz-option" onclick="checkAnswer(this, 0)">Gochisousama!</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1)">Itadakimasu!</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2)">Mizu kudasai!</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 3)">Sumimasen!</div>
+                </div>
+                <div class="quiz-feedback" id="feedback-10"></div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 18: WEEK 5 HEADER ========== -->
+        <div class="slide review-header week5-bg">
+            <div class="slide-content">
+                <div style="font-size: 120px; margin-bottom: 20px;">🍜</div>
+                <h1>Week 5: Ramen Shop</h1>
+                <div class="subtitle">Ordering Food</div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 19: WEEK 5 QUIZ ========== -->
+        <div class="slide quiz-slide week5-bg">
+            <div class="slide-content">
+                <div class="quiz-question">👆 You're pointing at the menu. "This one please!" How do you say it?</div>
+                <div class="quiz-options" data-correct="2">
+                    <div class="quiz-option" onclick="checkAnswer(this, 0)">Ikura desu ka?</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1)">Mizu kudasai</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2)">Kore kudasai</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 3)">Onegaishimasu</div>
+                </div>
+                <div class="quiz-feedback" id="feedback-11"></div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 20: WEEK 5 QUIZ 2 ========== -->
+        <div class="slide quiz-slide week5-bg">
+            <div class="slide-content">
+                <div class="quiz-question">💧 You're thirsty! How do you ask for water?</div>
+                <div class="quiz-options" data-correct="1">
+                    <div class="quiz-option" onclick="checkAnswer(this, 0)">Okawari kudasai</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1)">Mizu kudasai</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2)">Kore kudasai</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 3)">Oishii!</div>
+                </div>
+                <div class="quiz-feedback" id="feedback-12"></div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 21: WEEK 5 CULTURE Q ========== -->
+        <div class="slide quiz-slide week5-bg">
+            <div class="slide-content">
+                <div class="quiz-question">🍜 In Japan, is it polite or rude to SLURP your noodles loudly?</div>
+                <div class="quiz-options" data-correct="0" style="grid-template-columns: 1fr 1fr;">
+                    <div class="quiz-option" onclick="checkAnswer(this, 0)">👍 Polite! It means you enjoy it!</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1)">👎 Rude! Eat quietly!</div>
+                </div>
+                <div class="quiz-feedback" id="feedback-13"></div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 22: WEEK 6 HEADER ========== -->
+        <div class="slide review-header week6-bg">
+            <div class="slide-content">
+                <div style="font-size: 120px; margin-bottom: 20px;">🏪</div>
+                <h1>Week 6: Convenience Store</h1>
+                <div class="subtitle">Shopping Basics</div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 23: WEEK 6 QUIZ ========== -->
+        <div class="slide quiz-slide week6-bg">
+            <div class="slide-content">
+                <div class="quiz-question">💰 You want to know the price. What do you ask?</div>
+                <div class="quiz-options" data-correct="2">
+                    <div class="quiz-option" onclick="checkAnswer(this, 0)">Kore kudasai</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1)">Onegaishimasu</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2)">Ikura desu ka?</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 3)">Arigatou!</div>
+                </div>
+                <div class="quiz-feedback" id="feedback-14"></div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 24: WEEK 6 QUIZ 2 ========== -->
+        <div class="slide quiz-slide week6-bg">
+            <div class="slide-content">
+                <div class="quiz-question">🛍️ The cashier asks if you want a bag. You don't need one! What do you say?</div>
+                <div class="quiz-options" data-correct="3">
+                    <div class="quiz-option" onclick="checkAnswer(this, 0)">Hai!</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1)">Sumimasen</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2)">Arigatou</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 3)">Fukuro wa iranai desu</div>
+                </div>
+                <div class="quiz-feedback" id="feedback-15"></div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 25: GRAND SCENARIO HEADER ========== -->
+        <div class="slide title-slide">
+            <div class="slide-content">
+                <div style="font-size: 100px; margin-bottom: 20px;">🗾🎬</div>
+                <h1>Grand Scenario!</h1>
+                <div class="subtitle">Your First Day in Japan</div>
+                <div class="week-info">Use everything you've learned! 🧠</div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 26: SCENARIO - AIRPORT ========== -->
+        <div class="slide scenario-slide week1-bg">
+            <div class="slide-content">
+                <div class="scenario-title">✈️ Scene 1: You land at the airport!</div>
+                <div class="scenario-box">
+                    <div class="scenario-line"><span class="speaker">Immigration officer:</span> Konnichiwa!</div>
+                    <div class="scenario-line"><span class="speaker">You:</span> <span class="scenario-blank" onclick="revealAnswer(this, 'Konnichiwa!')">❓ (Say hello back!)</span></div>
+                    <div class="scenario-line"><span class="speaker">Officer:</span> *stamps your passport*</div>
+                    <div class="scenario-line"><span class="speaker">You:</span> <span class="scenario-blank" onclick="revealAnswer(this, 'Arigatou!')">❓ (Say thank you!)</span></div>
+                    <div class="scenario-line" style="margin-top: 15px;"><span class="speaker">Hotel shuttle driver:</span> O-genki desu ka?</div>
+                    <div class="scenario-line"><span class="speaker">You:</span> <span class="scenario-blank" onclick="revealAnswer(this, 'Genki desu!')">❓ (Say you're doing well!)</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 27: SCENARIO - HOTEL ========== -->
+        <div class="slide scenario-slide week2-bg">
+            <div class="slide-content">
+                <div class="scenario-title">🏨 Scene 2: Hotel Check-In</div>
+                <div class="scenario-box">
+                    <div class="scenario-line"><span class="speaker">Hotel staff:</span> Konnichiwa!</div>
+                    <div class="scenario-line"><span class="speaker">You:</span> <span class="scenario-blank" onclick="revealAnswer(this, 'Konnichiwa! Hajimemashite!')">❓ (Greet + nice to meet you!)</span></div>
+                    <div class="scenario-line"><span class="speaker">Staff:</span> Onamae wa?</div>
+                    <div class="scenario-line"><span class="speaker">You:</span> <span class="scenario-blank" onclick="revealAnswer(this, 'Watashi wa ___ desu!')">❓ (Say your name!)</span></div>
+                    <div class="scenario-line"><span class="speaker">You:</span> *need to find the bathroom* <span class="scenario-blank" onclick="revealAnswer(this, 'Sumimasen!')">❓ (Get attention politely!)</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 28: SCENARIO - RESTAURANT ========== -->
+        <div class="slide scenario-slide week4-bg">
+            <div class="slide-content">
+                <div class="scenario-title">🍱 Scene 3: Dinner Time!</div>
+                <div class="scenario-box">
+                    <div class="scenario-line"><span class="speaker">You:</span> *sit down at restaurant*</div>
+                    <div class="scenario-line"><span class="speaker">Server:</span> Here's your menu!</div>
+                    <div class="scenario-line"><span class="speaker">You:</span> <span class="scenario-blank" onclick="revealAnswer(this, 'Kore kudasai!')">❓ (Point and order!)</span></div>
+                    <div class="scenario-line"><span class="speaker">You:</span> *food arrives* <span class="scenario-blank" onclick="revealAnswer(this, 'Itadakimasu!')">❓ (What do you say BEFORE eating?)</span></div>
+                    <div class="scenario-line"><span class="speaker">You:</span> *takes a bite* <span class="scenario-blank" onclick="revealAnswer(this, 'Oishii!')">❓ (It's delicious!)</span></div>
+                    <div class="scenario-line"><span class="speaker">You:</span> *finished eating* <span class="scenario-blank" onclick="revealAnswer(this, 'Gochisousama!')">❓ (Thank the chef!)</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 29: SCENARIO - KONBINI ========== -->
+        <div class="slide scenario-slide week6-bg">
+            <div class="slide-content">
+                <div class="scenario-title">🏪 Scene 4: Late Night Konbini Run!</div>
+                <div class="scenario-box">
+                    <div class="scenario-line"><span class="speaker">You:</span> *grab onigiri and Pocky*</div>
+                    <div class="scenario-line"><span class="speaker">You:</span> <span class="scenario-blank" onclick="revealAnswer(this, 'Kore to kore kudasai!')">❓ (This and this please!)</span></div>
+                    <div class="scenario-line"><span class="speaker">You:</span> <span class="scenario-blank" onclick="revealAnswer(this, 'Ikura desu ka?')">❓ (Ask the price!)</span></div>
+                    <div class="scenario-line"><span class="speaker">Cashier:</span> Fukuro wa?</div>
+                    <div class="scenario-line"><span class="speaker">You:</span> <span class="scenario-blank" onclick="revealAnswer(this, 'Fukuro wa iranai desu!')">❓ (No bag needed!)</span></div>
+                    <div class="scenario-line"><span class="speaker">You:</span> *pays and leaves* <span class="scenario-blank" onclick="revealAnswer(this, 'Arigatou gozaimasu!')">❓ (Say thank you politely!)</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 30: SPEED ROUND ========== -->
+        <div class="slide challenge-slide">
+            <div class="slide-content">
+                <h2>⚡ Lightning Round! ⚡</h2>
+                <div class="phrase-box" style="font-size: 28px; line-height: 2.2; text-align: left; max-width: 800px; margin: 0 auto;">
+                    <div style="text-align: center; font-size: 34px; margin-bottom: 15px; color: #ffeb3b; font-weight: 800;">
+                        TT says the English — YOU say the Japanese!
+                    </div>
+                    <div>1. Hello → <em style="color: #ffeb3b;">Konnichiwa</em></div>
+                    <div>2. Thank you → <em style="color: #ffeb3b;">Arigatou</em></div>
+                    <div>3. Excuse me → <em style="color: #ffeb3b;">Sumimasen</em></div>
+                    <div>4. Delicious! → <em style="color: #ffeb3b;">Oishii!</em></div>
+                    <div>5. This please → <em style="color: #ffeb3b;">Kore kudasai</em></div>
+                    <div>6. Before eating → <em style="color: #ffeb3b;">Itadakimasu</em></div>
+                    <div>7. After eating → <em style="color: #ffeb3b;">Gochisousama</em></div>
+                    <div>8. How much? → <em style="color: #ffeb3b;">Ikura desu ka?</em></div>
+                    <div>9. No bag needed → <em style="color: #ffeb3b;">Fukuro wa iranai desu</em></div>
+                    <div>10. Let's play! → <em style="color: #ffeb3b;">Issho ni asobou!</em></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 31: FINAL SCORE ========== -->
+        <div class="slide celebration-slide">
+            <div class="slide-content">
+                <div style="font-size: 100px; margin-bottom: 20px;">🏆🎉🌟</div>
+                <h1>Amazing Job!</h1>
+                <div class="phrase-box" style="font-size: 36px;">
+                    <div style="margin-bottom: 15px;">Your Score: <strong id="final-score" style="color: #ffeb3b; font-size: 50px;">0</strong> / 12 ⭐</div>
+                    <div style="font-size: 28px; margin-top: 20px; opacity: 0.9;">
+                        You've learned so much in 6 weeks!<br>
+                        Keep practicing — Japan is getting closer! 🇯🇵
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 32: PASSPORT STAMP ========== -->
+        <div class="slide mission-slide">
+            <div class="slide-content">
+                <div style="font-size: 100px; margin-bottom: 20px;">🎫</div>
+                <h2>This Week's Passport Stamp</h2>
+                <div class="phrase-box">
+                    <div style="font-size: 55px; font-weight: 900; color: #ffeb3b;">
+                        🎌 Review Champion 🎌
+                    </div>
+                    <div style="font-size: 32px; margin-top: 25px;">
+                        You reviewed Weeks 1-6!<br>
+                        <strong>Stamp earned!</strong> 🏆
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== SLIDE 33: CLOSING ========== -->
+        <div class="slide title-slide">
+            <div class="slide-content">
+                <div style="font-size: 100px; margin-bottom: 20px;">🌸</div>
+                <h1>Otsukaresama!</h1>
+                <div class="subtitle">Great work today! 💪</div>
+                <div class="phrase-box" style="margin-top: 30px; font-size: 32px;">
+                    <div style="color: #333;">
+                        <strong>Mission:</strong> Teach someone at home<br>
+                        3 phrases from today's review!<br><br>
+                        <strong style="color: #e17055;">See you next week! Mata ne! 👋</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="slide-counter"><span id="currentSlide">1</span> / <span id="totalSlides">33</span></div>
+    <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+    </div>
+
+    <script>
+        // Slide navigation
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = Math.max(0, Math.min(n, totalSlides - 1));
+            slides[currentSlide].classList.add('active');
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+
+            // Update final score on celebration slide
+            if (currentSlide === totalSlides - 3) {
+                document.getElementById('final-score').textContent = score;
+                launchConfetti();
+            }
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        // Touch/swipe support
+        let touchStartX = 0;
+        document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+        document.addEventListener('touchend', e => {
+            const diff = touchStartX - e.changedTouches[0].clientX;
+            if (Math.abs(diff) > 50) changeSlide(diff > 0 ? 1 : -1);
+        });
+
+        showSlide(0);
+
+        // Quiz scoring
+        let score = 0;
+
+        function checkAnswer(element, selectedIndex) {
+            const options = element.parentElement;
+            const correctIndex = parseInt(options.dataset.correct);
+            const allOptions = options.querySelectorAll('.quiz-option');
+
+            // Prevent re-answering
+            if (options.classList.contains('answered')) return;
+            options.classList.add('answered');
+
+            allOptions.forEach(opt => opt.classList.add('disabled'));
+
+            if (selectedIndex === correctIndex) {
+                element.classList.add('correct');
+                score++;
+                document.getElementById('score').textContent = score;
+
+                // Find feedback element
+                const feedback = element.closest('.slide-content').querySelector('.quiz-feedback');
+                if (feedback) {
+                    feedback.textContent = '✅ Sugoi! Correct!';
+                    feedback.style.color = '#4CAF50';
+                }
+            } else {
+                element.classList.add('wrong');
+                allOptions[correctIndex].classList.add('correct');
+
+                const feedback = element.closest('.slide-content').querySelector('.quiz-feedback');
+                if (feedback) {
+                    feedback.textContent = '❌ Not quite! The answer is highlighted in green.';
+                    feedback.style.color = '#ff6b6b';
+                }
+            }
+        }
+
+        // Scenario blanks
+        function revealAnswer(element, answer) {
+            if (element.classList.contains('revealed')) return;
+            element.classList.add('revealed');
+            element.textContent = answer;
+        }
+
+        // Confetti
+        function launchConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const particles = [];
+            const colors = ['#ff6b6b','#ffeb3b','#4CAF50','#2196F3','#ff9800','#e91e63','#9c27b0','#00bcd4'];
+
+            for (let i = 0; i < 150; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    w: Math.random() * 12 + 5,
+                    h: Math.random() * 8 + 4,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    speed: Math.random() * 3 + 2,
+                    spin: Math.random() * 0.2 - 0.1,
+                    angle: Math.random() * Math.PI * 2,
+                    drift: Math.random() * 2 - 1
+                });
+            }
+
+            let frame = 0;
+            function animate() {
+                if (frame > 300) { ctx.clearRect(0, 0, canvas.width, canvas.height); return; }
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.y += p.speed;
+                    p.x += p.drift;
+                    p.angle += p.spin;
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.angle);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+                    ctx.restore();
+                });
+                frame++;
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+    </script>
+</body>
+</html>
